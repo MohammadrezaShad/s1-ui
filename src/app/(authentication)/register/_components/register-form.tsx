@@ -1,13 +1,17 @@
 'use client';
 
-import {useFormStatus} from 'react-dom';
+import {useEffect} from 'react';
+import {useFormState, useFormStatus} from 'react-dom';
 import {css} from '@styled/css';
 import {Flex} from '@styled/jsx';
 import {useRouter} from 'next/navigation';
 
 import {IconEmail, IconLock, IconUser} from '@/assets';
-import {Button} from '@/components';
+import {Button, FieldError} from '@/components';
+import {FormStatus} from '@/constants';
+import {EMPTY_FORM_STATE} from '@/utils';
 
+import register from '../_actions/register';
 import {
   Form as LoginForm,
   Input,
@@ -18,14 +22,24 @@ import {
 } from './register-view.styled';
 
 function Form() {
+  const [formState, action] = useFormState(register, EMPTY_FORM_STATE);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (formState?.status === FormStatus.SUCCESS) {
+      router.push('/login');
+    }
+  }, [formState, router]);
+
   return (
-    <LoginForm>
+    <LoginForm action={action}>
       <TextField className={css({mb: '2'})}>
-        <Label htmlFor='name'>Full name:</Label>
+        <Label htmlFor='name'>Display Name:</Label>
         <InputWrapper>
           <IconUser className={css({w: '6', h: '6'})} />
-          <Input type='text' id='full-name' name='full-name' autoComplete='name' />
+          <Input type='text' id='display-name' name='display-name' autoComplete='name' />
         </InputWrapper>
+        <FieldError formState={formState} name='displayName' />
       </TextField>
       <TextField className={css({mb: '2'})}>
         <Label htmlFor='email'>Email</Label>
@@ -33,6 +47,15 @@ function Form() {
           <IconEmail className={css({w: '6', h: '6'})} />
           <Input type='email' id='email' name='email' autoComplete='email' />
         </InputWrapper>
+        <FieldError formState={formState} name='email' />
+      </TextField>
+      <TextField className={css({mb: '2'})}>
+        <Label htmlFor='name'>Phone number:</Label>
+        <InputWrapper>
+          <IconUser className={css({w: '6', h: '6'})} />
+          <Input type='tel' id='phone' name='phone' autoComplete='mobile tel' />
+        </InputWrapper>
+        <FieldError formState={formState} name='phone' />
       </TextField>
       <TextField className={css({mb: '2'})}>
         <Label htmlFor='password'>Password</Label>
@@ -40,13 +63,7 @@ function Form() {
           <IconLock className={css({w: '6', h: '6'})} />
           <Input type='password' id='password' name='password' autoComplete='current-password' />
         </InputWrapper>
-      </TextField>
-      <TextField>
-        <Label htmlFor='repeat-password'>Repeat Password:</Label>
-        <InputWrapper>
-          <IconLock className={css({w: '6', h: '6'})} />
-          <Input type='password' id='repeat-password' name='repeat-password' />
-        </InputWrapper>
+        <FieldError formState={formState} name='password' />
       </TextField>
       <Flex flexDir='column'>
         <Link href='/login'>Already have an account? Sign in</Link>
@@ -61,12 +78,10 @@ export default Form;
 const SubmitButton = () => {
   const {pending} = useFormStatus();
   const buttonText = pending ? 'Please wait...' : 'Continue';
-  const router = useRouter();
 
   return (
     <Button
-      onClick={() => router.push('/register/code')}
-      type='button'
+      type='submit'
       visual='contained'
       size='lg'
       color='primary'

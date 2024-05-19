@@ -1,17 +1,19 @@
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
-export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
-export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
-export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
+export type Exact<T extends {[key: string]: unknown}> = {[K in keyof T]: T[K]};
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {[SubKey in K]?: Maybe<T[SubKey]>};
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {[SubKey in K]: Maybe<T[SubKey]>};
+export type MakeEmpty<T extends {[key: string]: unknown}, K extends keyof T> = {[_ in K]?: never};
+export type Incremental<T> =
+  | T
+  | {[P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never};
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: { input: string; output: string; }
-  String: { input: string; output: string; }
-  Boolean: { input: boolean; output: boolean; }
-  Int: { input: number; output: number; }
-  Float: { input: number; output: number; }
+  ID: {input: string; output: string};
+  String: {input: string; output: string};
+  Boolean: {input: boolean; output: boolean};
+  Int: {input: number; output: number};
+  Float: {input: number; output: number};
 };
 
 export type AuthMutation = {
@@ -27,26 +29,21 @@ export type AuthMutation = {
   signupWithPhone: SignupWithPhoneOutput;
 };
 
-
 export type AuthMutationPassRecoveryWithPhoneArgs = {
   input: SetPasswordInput;
 };
-
 
 export type AuthMutationSendVerificationCodeArgs = {
   input: SendVerificationCodeInput;
 };
 
-
 export type AuthMutationSetPasswordArgs = {
   input: SetPasswordInput;
 };
 
-
 export type AuthMutationSignupArgs = {
   input: SignupInput;
 };
-
 
 export type AuthMutationSignupWithPhoneArgs = {
   input: SignupWithPhoneInput;
@@ -65,16 +62,13 @@ export type AuthQuery = {
   validateVerificationCode: CoreOutput;
 };
 
-
 export type AuthQuerySigninArgs = {
   input: SigninInput;
 };
 
-
 export type AuthQuerySigninWithOtpArgs = {
   input: SigninWitOtpInput;
 };
-
 
 export type AuthQueryValidateVerificationCodeArgs = {
   input: ValidateVerificationCodeInput;
@@ -296,21 +290,17 @@ export type PermissionMutation = {
   updatePermission: UpdatePermissionOutput;
 };
 
-
 export type PermissionMutationBulkdeletePermissionArgs = {
   input: BulkDeletePermissionInput;
 };
-
 
 export type PermissionMutationCreatePermissionArgs = {
   input: CreatePermissionInput;
 };
 
-
 export type PermissionMutationDeletePermissionArgs = {
   input: DeletePermissionInput;
 };
-
 
 export type PermissionMutationUpdatePermissionArgs = {
   input: UpdatePermissionInput;
@@ -323,16 +313,13 @@ export type PermissionQuery = {
   searchPermissions: SearchPermissionOutput;
 };
 
-
 export type PermissionQueryFindPermissionByIdArgs = {
   input: FindPermissionByIdInput;
 };
 
-
 export type PermissionQueryFindPermissionByIdsArgs = {
   input: FindPermissionByIdsInput;
 };
-
 
 export type PermissionQuerySearchPermissionsArgs = {
   input: SearchPermissionInput;
@@ -370,21 +357,17 @@ export type RoleMutation = {
   updateRole: UpdateRoleOutput;
 };
 
-
 export type RoleMutationBulkDeleteRoleArgs = {
   input: BulkDeleteRoleInput;
 };
-
 
 export type RoleMutationCreateRoleArgs = {
   input: CreateRoleInput;
 };
 
-
 export type RoleMutationDeleteRoleArgs = {
   input: DeleteRoleInput;
 };
-
 
 export type RoleMutationUpdateRoleArgs = {
   input: UpdateRoleInput;
@@ -397,16 +380,13 @@ export type RoleQuery = {
   searchRoles: SearchRoleOutput;
 };
 
-
 export type RoleQueryFindRoleByIdArgs = {
   input: FindRoleByIdInput;
 };
 
-
 export type RoleQueryFindRoleByIdsArgs = {
   input: FindRoleByIdsInput;
 };
-
 
 export type RoleQuerySearchRolesArgs = {
   input: SearchRoleInput;
@@ -548,16 +528,13 @@ export type TaxonomyMutation = {
   updateTaxonomy: UpdateTaxonomyOutput;
 };
 
-
 export type TaxonomyMutationCreateTaxonomyArgs = {
   input: CreateTaxonomyInput;
 };
 
-
 export type TaxonomyMutationDeleteTaxonomyArgs = {
   input: DeleteTaxonomyInput;
 };
-
 
 export type TaxonomyMutationUpdateTaxonomyArgs = {
   input: UpdateTaxonomyInput;
@@ -570,16 +547,13 @@ export type TaxonomyQuery = {
   searchTaxonomy: SearchTaxonomyOutput;
 };
 
-
 export type TaxonomyQueryFindTaxonomyByIdArgs = {
   input: FindTaxonomyInput;
 };
 
-
 export type TaxonomyQueryFindTaxonomyBySlugArgs = {
   input: FindTaxonomyBySlugInput;
 };
-
 
 export type TaxonomyQuerySearchTaxonomyArgs = {
   input: SearchTaxonomyInput;
@@ -587,7 +561,7 @@ export type TaxonomyQuerySearchTaxonomyArgs = {
 
 export enum TaxonomyType {
   Category = 'CATEGORY',
-  Tag = 'TAG'
+  Tag = 'TAG',
 }
 
 export type UpdatePermissionInput = {
@@ -663,16 +637,13 @@ export type UserMutation = {
   updateUser: UpdateUserOutput;
 };
 
-
 export type UserMutationCreateUserArgs = {
   input: CreateUserInput;
 };
 
-
 export type UserMutationDeleteUserArgs = {
   input: DeleteUserInput;
 };
-
 
 export type UserMutationUpdateUserArgs = {
   input: UpdateUserInput;
@@ -687,26 +658,21 @@ export type UserQuery = {
   searchUser: SearchUserOutput;
 };
 
-
 export type UserQueryFindUserByEmailArgs = {
   input: FindUserByEmailInput;
 };
-
 
 export type UserQueryFindUserByIdArgs = {
   input: FindUserByIdInput;
 };
 
-
 export type UserQueryFindUserByPhoneAndIsVerifiedArgs = {
   input: FindUserByPhoneInput;
 };
 
-
 export type UserQueryFindUsersByRoleArgs = {
   input: FindUsersByRoleInput;
 };
-
 
 export type UserQuerySearchUserArgs = {
   input: SearchUserInput;

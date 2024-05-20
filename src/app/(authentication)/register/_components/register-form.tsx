@@ -11,6 +11,7 @@ import {Button, FieldError} from '@/components';
 import {FormStatus} from '@/constants';
 import {EMPTY_FORM_STATE} from '@/utils';
 
+import GoogleButton from '../../_components/google-button';
 import register from '../_actions/register';
 import {
   Form as LoginForm,
@@ -24,6 +25,9 @@ import {
 function Form() {
   const [formState, action] = useFormState(register, EMPTY_FORM_STATE);
   const router = useRouter();
+  const googleLogin = () => {
+    window.location.href = process.env.NEXT_PUBLIC_GOOGLE_AUTH_URL as string;
+  };
 
   useEffect(() => {
     if (formState?.status === FormStatus.SUCCESS) {
@@ -69,6 +73,7 @@ function Form() {
         <Link href='/login'>Already have an account? Sign in</Link>
       </Flex>
       <SubmitButton />
+      <GoogleButton onClick={googleLogin} />
     </LoginForm>
   );
 }
@@ -85,7 +90,7 @@ const SubmitButton = () => {
       visual='contained'
       size='lg'
       color='primary'
-      className={css({w: 'full', mt: '12'})}
+      className={css({w: 'full', mt: '2'})}
     >
       <span>{buttonText}</span>
     </Button>

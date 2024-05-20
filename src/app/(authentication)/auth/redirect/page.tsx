@@ -1,13 +1,14 @@
-import {redirect} from 'next/navigation';
+'use client';
 
-export default function Page({
-  params,
-  searchParams,
-}: {
-  params: {slug: string};
-  searchParams?: {[key: string]: string | string[] | undefined};
-}) {
-  console.log(searchParams);
+import {redirect, useSearchParams} from 'next/navigation';
+
+import {setTokens} from '@/helpers';
+
+export default function Page() {
+  const searchParams = useSearchParams();
+  const accessToken = searchParams.get('accessToken') as string;
+  const refreshToken = searchParams.get('refreshToken') as string;
+  setTokens({accessToken, refreshToken});
 
   redirect('/');
 }

@@ -82,3 +82,28 @@ export const Form = styled('form', {
     w: 'full',
   },
 });
+
+export const GButton = styled('button', {
+  base: {
+    w: 'full',
+    h: '[3.5rem]',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    bgColor: 'white',
+    _dark: {bgColor: 'gray.900', color: 'white'},
+    borderWidth: '1px',
+    borderColor: 'gray.300',
+    rounded: 'lg',
+    px: '6',
+    py: '2',
+    fontSize: 'sm',
+    lineHeight: 'sm',
+    fontWeight: 'medium',
+    color: 'gray.800',
+    _hover: {bgColor: 'gray.200'},
+    _focus: {ring: 'none', ringOffset: 'none', shadow: '2'},
+    mt: '4',
+    cursor: 'pointer',
+  },
+});

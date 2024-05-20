@@ -56,7 +56,7 @@ export const Title = styled('h1', {
   base: {
     textStyle: 'title1',
     color: 'grey_900',
-    mb: '12',
+    mb: '2',
   },
 });
 

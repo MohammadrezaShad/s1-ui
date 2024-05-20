@@ -13,6 +13,7 @@ import {Button, FieldError, FormError} from '@/components';
 import {FormStatus} from '@/constants';
 import {EMPTY_FORM_STATE} from '@/utils';
 
+import GoogleButton from '../../_components/google-button';
 import login from '../_actions/login';
 import {Form as LoginForm, Input, InputWrapper, Label, Link, TextField} from './login-view.styled';
 
@@ -53,16 +54,7 @@ function Form() {
         <Link href='/register'>Create new account</Link>
       </Flex>
       <SubmitButton />
-      <Button
-        type='button'
-        visual='contained'
-        size='lg'
-        color='primary'
-        className={css({w: 'full', mt: '4'})}
-        onClick={() => googleLogin()}
-      >
-        <span>Sign in with Google</span>
-      </Button>
+      <GoogleButton onClick={googleLogin} />
     </LoginForm>
   );
 }

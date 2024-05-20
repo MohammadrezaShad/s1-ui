@@ -1,3 +1,5 @@
+/* eslint-disable import/no-extraneous-dependencies */
+
 'use client';
 
 import {useEffect} from 'react';
@@ -17,6 +19,9 @@ import {Form as LoginForm, Input, InputWrapper, Label, Link, TextField} from './
 function Form() {
   const [formState, action] = useFormState(login, EMPTY_FORM_STATE);
   const router = useRouter();
+  const googleLogin = () => {
+    window.location.href = process.env.NEXT_PUBLIC_GOOGLE_AUTH_URL as string;
+  };
 
   useEffect(() => {
     if (formState?.status === FormStatus.SUCCESS) {
@@ -48,7 +53,16 @@ function Form() {
         <Link href='/register'>Create new account</Link>
       </Flex>
       <SubmitButton />
-      <GoogleSignIn />
+      <Button
+        type='button'
+        visual='contained'
+        size='lg'
+        color='primary'
+        className={css({w: 'full', mt: '4'})}
+        onClick={() => googleLogin()}
+      >
+        <span>Sign in with Google</span>
+      </Button>
     </LoginForm>
   );
 }
@@ -71,15 +85,3 @@ const SubmitButton = () => {
     </Button>
   );
 };
-
-const GoogleSignIn = () => (
-  <Button
-    type='submit'
-    visual='contained'
-    size='lg'
-    color='primary'
-    className={css({w: 'full', mt: '4'})}
-  >
-    <span>Sign in with Google</span>
-  </Button>
-);

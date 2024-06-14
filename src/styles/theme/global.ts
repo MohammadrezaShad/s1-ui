@@ -11,7 +11,6 @@ export const globalCss = defineGlobalStyles({
   main: {
     direction: 'ltr',
     overflowY: 'auto',
-    height: '100vh',
   },
   '.root': {
     display: 'flex',

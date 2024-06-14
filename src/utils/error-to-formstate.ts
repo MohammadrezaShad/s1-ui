@@ -7,6 +7,7 @@ export type FormState = {
   message: string;
   fieldErrors: Record<string, string[] | undefined>;
   timestamp: number;
+  data?: any;
 };
 
 export const EMPTY_FORM_STATE: FormState = {
@@ -41,9 +42,14 @@ export const fromErrorToFormState = (error: unknown) => {
   };
 };
 
-export const toFormState = (status: FormState['status'], message: string): FormState => ({
+export const toFormState = (
+  status: FormState['status'],
+  message: string,
+  data?: any,
+): FormState => ({
   status,
   message,
   fieldErrors: {},
   timestamp: Date.now(),
+  data,
 });

@@ -14,6 +14,7 @@ export type Scalars = {
   Boolean: {input: boolean; output: boolean};
   Int: {input: number; output: number};
   Float: {input: number; output: number};
+  Upload: {input: any; output: any};
 };
 
 export type AuthMutation = {
@@ -57,7 +58,6 @@ export type AuthQuery = {
   sendMail: Scalars['Boolean']['output'];
   signin: SigninOutput;
   signinWithGoogle: SigninOutput;
-  signinWithGoogleRedirect: SigninOutput;
   signinWithOtp: SigninOutput;
   validateVerificationCode: CoreOutput;
 };
@@ -74,6 +74,44 @@ export type AuthQueryValidateVerificationCodeArgs = {
   input: ValidateVerificationCodeInput;
 };
 
+export type BookmarkEntity = {
+  __typename?: 'BookmarkEntity';
+  _id: Scalars['String']['output'];
+  createdAt?: Maybe<Scalars['String']['output']>;
+  post: PostOutput;
+  type: CollectionName;
+  updatedAt?: Maybe<Scalars['String']['output']>;
+  user?: Maybe<UserOutputType>;
+};
+
+export type BookmarkResponse = {
+  __typename?: 'BookmarkResponse';
+  findBookmarkById: FindBookmarkOutput;
+  findBookmarkByIds: FindBookmarksOutput;
+  searchBookmark: SearchBookmarkOutput;
+};
+
+export type BookmarkResponseFindBookmarkByIdArgs = {
+  input: FindBookmarkInput;
+};
+
+export type BookmarkResponseFindBookmarkByIdsArgs = {
+  input: FindBookmarksInput;
+};
+
+export type BookmarkResponseSearchBookmarkArgs = {
+  input: SearchBookmarkInput;
+};
+
+export enum BooleanEnum {
+  False = 'FALSE',
+  True = 'TRUE',
+}
+
+export type BulkDeleteBusinessInput = {
+  ids: Array<Scalars['String']['input']>;
+};
+
 export type BulkDeletePermissionInput = {
   ids: Array<Scalars['String']['input']>;
 };
@@ -82,8 +120,151 @@ export type BulkDeleteRoleInput = {
   ids: Array<Scalars['String']['input']>;
 };
 
+export type BusinessEntity = {
+  __typename?: 'BusinessEntity';
+  _id: Scalars['String']['output'];
+  address?: Maybe<Scalars['String']['output']>;
+  address2?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['String']['output']>;
+  description?: Maybe<Scalars['String']['output']>;
+  email?: Maybe<Scalars['String']['output']>;
+  favoriteCount: Scalars['Float']['output'];
+  images?: Maybe<Array<ImageType>>;
+  isUserBookmark: Scalars['Boolean']['output'];
+  isUserFavorite: Scalars['Boolean']['output'];
+  lat?: Maybe<Scalars['Float']['output']>;
+  long?: Maybe<Scalars['Float']['output']>;
+  name: Scalars['String']['output'];
+  phone?: Maybe<Scalars['String']['output']>;
+  slug: Scalars['String']['output'];
+  taxonomies?: Maybe<Array<TaxonomyEntity>>;
+  thumbnail?: Maybe<ImageType>;
+  updatedAt?: Maybe<Scalars['String']['output']>;
+  user?: Maybe<UserOutputType>;
+  webAddress?: Maybe<Scalars['String']['output']>;
+  workHour?: Maybe<Array<WorkHourType>>;
+};
+
+export type BusinessMutation = {
+  __typename?: 'BusinessMutation';
+  bulkDeleteBusiness: DeleteBusinessOutput;
+  createBusiness: CreateBusinessOutput;
+  deleteBusiness: DeleteBusinessOutput;
+  deleteOneBusiness: DeleteBusinessOutput;
+  updateBusiness: UpdateBusinessOutput;
+  updateOneBusiness: UpdateBusinessOutput;
+};
+
+export type BusinessMutationBulkDeleteBusinessArgs = {
+  input: BulkDeleteBusinessInput;
+};
+
+export type BusinessMutationCreateBusinessArgs = {
+  input: CreateBusinessInput;
+};
+
+export type BusinessMutationDeleteBusinessArgs = {
+  input: DeleteBusinessInput;
+};
+
+export type BusinessMutationDeleteOneBusinessArgs = {
+  input: DeleteBusinessInput;
+};
+
+export type BusinessMutationUpdateBusinessArgs = {
+  input: UpdateBusinessInput;
+};
+
+export type BusinessMutationUpdateOneBusinessArgs = {
+  input: UpdateBusinessInput;
+};
+
+export type BusinessQuery = {
+  __typename?: 'BusinessQuery';
+  findBusinessById: FindBusinessOutput;
+  findBusinessByIds: FindManyBusinessOutput;
+  searchBusiness: SearchBusinessOutput;
+};
+
+export type BusinessQueryFindBusinessByIdArgs = {
+  input: FindBusinessByIdInput;
+};
+
+export type BusinessQueryFindBusinessByIdsArgs = {
+  input: FindBusinessByIdsInput;
+};
+
+export type BusinessQuerySearchBusinessArgs = {
+  input: SearchBusinessInput;
+};
+
+export enum CollectionName {
+  Bookmark = 'BOOKMARK',
+  Business = 'BUSINESS',
+  Favorite = 'FAVORITE',
+  Image = 'IMAGE',
+  Otp = 'OTP',
+  Permission = 'PERMISSION',
+  Review = 'REVIEW',
+  Role = 'ROLE',
+  Taxonomy = 'TAXONOMY',
+  User = 'USER',
+  Video = 'VIDEO',
+  VisitStatistics = 'VISIT_STATISTICS',
+}
+
 export type CoreOutput = {
   __typename?: 'CoreOutput';
+  success: Scalars['Boolean']['output'];
+};
+
+export type CreateAdminReviewInput = {
+  content: Scalars['String']['input'];
+  parent?: InputMaybe<Scalars['String']['input']>;
+  post: Scalars['String']['input'];
+  type: ReviewType;
+};
+
+export type CreateBookmarkInput = {
+  post: Scalars['String']['input'];
+  type: CollectionName;
+};
+
+export type CreateBookmarkOutput = {
+  __typename?: 'CreateBookmarkOutput';
+  success: Scalars['Boolean']['output'];
+};
+
+export type CreateBusinessInput = {
+  address?: InputMaybe<Scalars['String']['input']>;
+  address2?: InputMaybe<Scalars['String']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  email?: InputMaybe<Scalars['String']['input']>;
+  images?: InputMaybe<Array<Scalars['String']['input']>>;
+  lat?: InputMaybe<Scalars['Float']['input']>;
+  long?: InputMaybe<Scalars['Float']['input']>;
+  name: Scalars['String']['input'];
+  phone?: InputMaybe<Scalars['String']['input']>;
+  slug: Scalars['String']['input'];
+  taxonomies?: InputMaybe<Array<Scalars['String']['input']>>;
+  thumbnail?: InputMaybe<Scalars['String']['input']>;
+  webAddress?: InputMaybe<Scalars['String']['input']>;
+  workHour?: InputMaybe<Array<WorkHour>>;
+};
+
+export type CreateBusinessOutput = {
+  __typename?: 'CreateBusinessOutput';
+  businessId: Scalars['String']['output'];
+  success: Scalars['Boolean']['output'];
+};
+
+export type CreateFavoriteInput = {
+  post: Scalars['String']['input'];
+  type: CollectionName;
+};
+
+export type CreateFavoriteOutput = {
+  __typename?: 'CreateFavoriteOutput';
   success: Scalars['Boolean']['output'];
 };
 
@@ -94,6 +275,21 @@ export type CreatePermissionInput = {
 
 export type CreatePermissionOutput = {
   __typename?: 'CreatePermissionOutput';
+  success: Scalars['Boolean']['output'];
+};
+
+export type CreateReviewInput = {
+  author?: InputMaybe<Scalars['String']['input']>;
+  authorEmail?: InputMaybe<Scalars['String']['input']>;
+  content: Scalars['String']['input'];
+  parent?: InputMaybe<Scalars['String']['input']>;
+  post: Scalars['String']['input'];
+  score: Scalars['Float']['input'];
+  type: ReviewType;
+};
+
+export type CreateReviewOutput = {
+  __typename?: 'CreateReviewOutput';
   success: Scalars['Boolean']['output'];
 };
 
@@ -136,12 +332,77 @@ export type CreateUserOutput = {
   success: Scalars['Boolean']['output'];
 };
 
+export type DeleteBookmarkInput = {
+  id: Scalars['String']['input'];
+};
+
+export type DeleteBookmarkOutput = {
+  __typename?: 'DeleteBookmarkOutput';
+  success: Scalars['Boolean']['output'];
+};
+
+export type DeleteBookmarksInput = {
+  ids: Array<Scalars['String']['input']>;
+};
+
+export type DeleteBusinessInput = {
+  id: Scalars['String']['input'];
+};
+
+export type DeleteBusinessOutput = {
+  __typename?: 'DeleteBusinessOutput';
+  success: Scalars['Boolean']['output'];
+};
+
+export type DeleteFavoriteInput = {
+  id: Scalars['String']['input'];
+};
+
+export type DeleteFavoriteOutput = {
+  __typename?: 'DeleteFavoriteOutput';
+  success: Scalars['Boolean']['output'];
+};
+
+export type DeleteFavoritesInput = {
+  ids: Array<Scalars['String']['input']>;
+};
+
+export type DeleteImageInput = {
+  id: Scalars['String']['input'];
+};
+
+export type DeleteImageOutput = {
+  __typename?: 'DeleteImageOutput';
+  success: Scalars['Boolean']['output'];
+};
+
+export type DeleteManyReviewInput = {
+  ids: Array<Scalars['String']['input']>;
+};
+
+export type DeleteOneBookmarkInput = {
+  postId: Scalars['String']['input'];
+};
+
+export type DeleteOneFavoriteInput = {
+  postId: Scalars['String']['input'];
+};
+
 export type DeletePermissionInput = {
   permissionId: Scalars['String']['input'];
 };
 
 export type DeletePermissionOutput = {
   __typename?: 'DeletePermissionOutput';
+  success: Scalars['Boolean']['output'];
+};
+
+export type DeleteReviewInput = {
+  id: Scalars['String']['input'];
+};
+
+export type DeleteReviewOutput = {
+  __typename?: 'DeleteReviewOutput';
   success: Scalars['Boolean']['output'];
 };
 
@@ -172,9 +433,122 @@ export type DeleteUserOutput = {
   success: Scalars['Boolean']['output'];
 };
 
+export type EditReviewInput = {
+  content?: InputMaybe<Scalars['String']['input']>;
+  id: Scalars['String']['input'];
+};
+
+export type EditReviewOutput = {
+  __typename?: 'EditReviewOutput';
+  success: Scalars['Boolean']['output'];
+};
+
+export type FavoriteEntity = {
+  __typename?: 'FavoriteEntity';
+  _id: Scalars['String']['output'];
+  createdAt?: Maybe<Scalars['String']['output']>;
+  post: PostOutput;
+  type: CollectionName;
+  updatedAt?: Maybe<Scalars['String']['output']>;
+  user?: Maybe<UserOutputType>;
+};
+
+export type FavoriteResponse = {
+  __typename?: 'FavoriteResponse';
+  findFavoriteById: FindFavoriteOutput;
+  findFavoriteByIds: FindFavoritesOutput;
+  searchFavorite: SearchFavoriteOutput;
+};
+
+export type FavoriteResponseFindFavoriteByIdArgs = {
+  input: FindFavoriteInput;
+};
+
+export type FavoriteResponseFindFavoriteByIdsArgs = {
+  input: FindFavoritesInput;
+};
+
+export type FavoriteResponseSearchFavoriteArgs = {
+  input: SearchFavoriteInput;
+};
+
+export type FindBookmarkInput = {
+  id: Scalars['String']['input'];
+};
+
+export type FindBookmarkOutput = {
+  __typename?: 'FindBookmarkOutput';
+  result?: Maybe<BookmarkEntity>;
+  success: Scalars['Boolean']['output'];
+};
+
+export type FindBookmarksInput = {
+  ids: Array<Scalars['String']['input']>;
+};
+
+export type FindBookmarksOutput = {
+  __typename?: 'FindBookmarksOutput';
+  results?: Maybe<Array<BookmarkEntity>>;
+  success: Scalars['Boolean']['output'];
+};
+
+export type FindBusinessByIdInput = {
+  id: Scalars['String']['input'];
+};
+
+export type FindBusinessByIdsInput = {
+  ids: Array<Scalars['String']['input']>;
+};
+
+export type FindBusinessOutput = {
+  __typename?: 'FindBusinessOutput';
+  result?: Maybe<BusinessEntity>;
+  success: Scalars['Boolean']['output'];
+};
+
+export type FindFavoriteInput = {
+  id: Scalars['String']['input'];
+};
+
+export type FindFavoriteOutput = {
+  __typename?: 'FindFavoriteOutput';
+  result?: Maybe<FavoriteEntity>;
+  success: Scalars['Boolean']['output'];
+};
+
+export type FindFavoritesInput = {
+  ids: Array<Scalars['String']['input']>;
+};
+
+export type FindFavoritesOutput = {
+  __typename?: 'FindFavoritesOutput';
+  results?: Maybe<Array<FavoriteEntity>>;
+  success: Scalars['Boolean']['output'];
+};
+
+export type FindManyBusinessOutput = {
+  __typename?: 'FindManyBusinessOutput';
+  results?: Maybe<Array<BusinessEntity>>;
+  success: Scalars['Boolean']['output'];
+};
+
 export type FindManyPermissionsOutput = {
   __typename?: 'FindManyPermissionsOutput';
   results?: Maybe<Array<PermissionEntity>>;
+  success: Scalars['Boolean']['output'];
+};
+
+export type FindManyReviewByPostInput = {
+  post: Scalars['String']['input'];
+};
+
+export type FindManyReviewInput = {
+  ids: Array<Scalars['String']['input']>;
+};
+
+export type FindManyReviewOutput = {
+  __typename?: 'FindManyReviewOutput';
+  results?: Maybe<Array<ReviewEntity>>;
   success: Scalars['Boolean']['output'];
 };
 
@@ -204,6 +578,16 @@ export type FindPermissionOutput = {
   success: Scalars['Boolean']['output'];
 };
 
+export type FindReviewInput = {
+  id: Scalars['String']['input'];
+};
+
+export type FindReviewOutput = {
+  __typename?: 'FindReviewOutput';
+  result?: Maybe<ReviewEntity>;
+  success: Scalars['Boolean']['output'];
+};
+
 export type FindRoleByIdInput = {
   id: Scalars['String']['input'];
 };
@@ -215,6 +599,16 @@ export type FindRoleByIdsInput = {
 export type FindRoleOutput = {
   __typename?: 'FindRoleOutput';
   result?: Maybe<RoleEntity>;
+  success: Scalars['Boolean']['output'];
+};
+
+export type FindTaxonomyByIdsInput = {
+  ids: Array<Scalars['String']['input']>;
+};
+
+export type FindTaxonomyByIdsOutput = {
+  __typename?: 'FindTaxonomyByIdsOutput';
+  results?: Maybe<Array<TaxonomyEntity>>;
   success: Scalars['Boolean']['output'];
 };
 
@@ -261,14 +655,151 @@ export type GetProfileOutput = {
   success: Scalars['Boolean']['output'];
 };
 
+export type GetVotesDetailInput = {
+  type: ReviewType;
+};
+
+export type ImageMutation = {
+  __typename?: 'ImageMutation';
+  deleteImage: DeleteImageOutput;
+  updateImage: UpdateImageOutput;
+  uploadImage: UploadImageOutput;
+};
+
+export type ImageMutationDeleteImageArgs = {
+  input: DeleteImageInput;
+};
+
+export type ImageMutationUpdateImageArgs = {
+  input: UpdateImageInput;
+};
+
+export type ImageMutationUploadImageArgs = {
+  file: Scalars['Upload']['input'];
+  input?: InputMaybe<UploadImageInputType>;
+};
+
+export type ImageQuery = {
+  __typename?: 'ImageQuery';
+  searchImage: SearchImagesOutput;
+};
+
+export type ImageQuerySearchImageArgs = {
+  input: SearchImagesInput;
+};
+
+export type ImageType = {
+  __typename?: 'ImageType';
+  _id: Scalars['String']['output'];
+  alt?: Maybe<Scalars['String']['output']>;
+  createdAt?: Maybe<Scalars['String']['output']>;
+  filename: Scalars['String']['output'];
+  height: Scalars['Float']['output'];
+  preview: Scalars['String']['output'];
+  updatedAt?: Maybe<Scalars['String']['output']>;
+  width: Scalars['Float']['output'];
+};
+
 export type LogoutOutput = {
   __typename?: 'LogoutOutput';
   success: Scalars['Boolean']['output'];
 };
 
+export type MutateBookmarkResponse = {
+  __typename?: 'MutateBookmarkResponse';
+  bulkDeleteBookmark: DeleteBookmarkOutput;
+  createBookmark: CreateBookmarkOutput;
+  deleteBookmark: DeleteBookmarkOutput;
+  deleteOneBookmark: DeleteBookmarkOutput;
+};
+
+export type MutateBookmarkResponseBulkDeleteBookmarkArgs = {
+  input: DeleteBookmarksInput;
+};
+
+export type MutateBookmarkResponseCreateBookmarkArgs = {
+  input: CreateBookmarkInput;
+};
+
+export type MutateBookmarkResponseDeleteBookmarkArgs = {
+  input: DeleteBookmarkInput;
+};
+
+export type MutateBookmarkResponseDeleteOneBookmarkArgs = {
+  input: DeleteOneBookmarkInput;
+};
+
+export type MutateFavoriteResponse = {
+  __typename?: 'MutateFavoriteResponse';
+  bulkDeleteFavorite: DeleteFavoriteOutput;
+  createFavorite: CreateFavoriteOutput;
+  deleteFavorite: DeleteFavoriteOutput;
+  deleteOneFavorite: DeleteFavoriteOutput;
+};
+
+export type MutateFavoriteResponseBulkDeleteFavoriteArgs = {
+  input: DeleteFavoritesInput;
+};
+
+export type MutateFavoriteResponseCreateFavoriteArgs = {
+  input: CreateFavoriteInput;
+};
+
+export type MutateFavoriteResponseDeleteFavoriteArgs = {
+  input: DeleteFavoriteInput;
+};
+
+export type MutateFavoriteResponseDeleteOneFavoriteArgs = {
+  input: DeleteOneFavoriteInput;
+};
+
+export type MutateReviewResponse = {
+  __typename?: 'MutateReviewResponse';
+  bulkDeleteReview: DeleteReviewOutput;
+  createAdminReview: CreateReviewOutput;
+  createReview: CreateReviewOutput;
+  deleteReview: DeleteReviewOutput;
+  editReview: EditReviewOutput;
+  removeReview: DeleteReviewOutput;
+  updateReview: UpdateReviewOutput;
+};
+
+export type MutateReviewResponseBulkDeleteReviewArgs = {
+  input: DeleteManyReviewInput;
+};
+
+export type MutateReviewResponseCreateAdminReviewArgs = {
+  input: CreateAdminReviewInput;
+};
+
+export type MutateReviewResponseCreateReviewArgs = {
+  input: CreateReviewInput;
+};
+
+export type MutateReviewResponseDeleteReviewArgs = {
+  input: DeleteReviewInput;
+};
+
+export type MutateReviewResponseEditReviewArgs = {
+  input: EditReviewInput;
+};
+
+export type MutateReviewResponseRemoveReviewArgs = {
+  input: RemoveReviewInput;
+};
+
+export type MutateReviewResponseUpdateReviewArgs = {
+  input: UpdateReviewInput;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   auth: AuthMutation;
+  bookmark: MutateBookmarkResponse;
+  business: BusinessMutation;
+  favorite: MutateFavoriteResponse;
+  image: ImageMutation;
+  review: MutateReviewResponse;
   taxonomy: TaxonomyMutation;
   user: UserMutation;
 };
@@ -284,13 +815,13 @@ export type PermissionEntity = {
 
 export type PermissionMutation = {
   __typename?: 'PermissionMutation';
-  bulkdeletePermission: DeletePermissionOutput;
+  bulkDeletePermission: DeletePermissionOutput;
   createPermission: CreatePermissionOutput;
   deletePermission: DeletePermissionOutput;
   updatePermission: UpdatePermissionOutput;
 };
 
-export type PermissionMutationBulkdeletePermissionArgs = {
+export type PermissionMutationBulkDeletePermissionArgs = {
   input: BulkDeletePermissionInput;
 };
 
@@ -325,9 +856,19 @@ export type PermissionQuerySearchPermissionsArgs = {
   input: SearchPermissionInput;
 };
 
+export type PostOutput = {
+  __typename?: 'PostOutput';
+  businessEntity?: Maybe<BusinessEntity>;
+};
+
 export type Query = {
   __typename?: 'Query';
   auth: AuthQuery;
+  bookmark: BookmarkResponse;
+  business: BusinessQuery;
+  favorite: FavoriteResponse;
+  image: ImageQuery;
+  review: ReviewQuery;
   taxonomy: TaxonomyQuery;
   user: UserQuery;
 };
@@ -338,6 +879,60 @@ export type RefreshTokenOutput = {
   refreshToken?: Maybe<Scalars['String']['output']>;
   success: Scalars['Boolean']['output'];
 };
+
+export type RemoveReviewInput = {
+  id: Scalars['String']['input'];
+};
+
+export type ReviewEntity = {
+  __typename?: 'ReviewEntity';
+  _id: Scalars['String']['output'];
+  approved?: Maybe<BooleanEnum>;
+  author?: Maybe<Scalars['String']['output']>;
+  authorEmail?: Maybe<Scalars['String']['output']>;
+  childs?: Maybe<Array<ReviewEntity>>;
+  content: Scalars['String']['output'];
+  createUser?: Maybe<UserOutputType>;
+  createdAt?: Maybe<Scalars['String']['output']>;
+  parent?: Maybe<ReviewEntity>;
+  post: PostOutput;
+  score: Scalars['Float']['output'];
+  type: ReviewType;
+  updatedAt?: Maybe<Scalars['String']['output']>;
+};
+
+export type ReviewQuery = {
+  __typename?: 'ReviewQuery';
+  findReviewById: FindReviewOutput;
+  findReviewByIds: FindManyReviewOutput;
+  findReviewByPost: FindManyReviewOutput;
+  getVotesDetail: Array<VotesDetail>;
+  searchReview: SearchReviewOutput;
+};
+
+export type ReviewQueryFindReviewByIdArgs = {
+  input: FindReviewInput;
+};
+
+export type ReviewQueryFindReviewByIdsArgs = {
+  input: FindManyReviewInput;
+};
+
+export type ReviewQueryFindReviewByPostArgs = {
+  input: FindManyReviewByPostInput;
+};
+
+export type ReviewQueryGetVotesDetailArgs = {
+  input: GetVotesDetailInput;
+};
+
+export type ReviewQuerySearchReviewArgs = {
+  input: SearchReviewInput;
+};
+
+export enum ReviewType {
+  Business = 'BUSINESS',
+}
 
 export type RoleEntity = {
   __typename?: 'RoleEntity';
@@ -392,6 +987,69 @@ export type RoleQuerySearchRolesArgs = {
   input: SearchRoleInput;
 };
 
+export type Score = {
+  __typename?: 'Score';
+  percent?: Maybe<Scalars['Float']['output']>;
+  score?: Maybe<Scalars['Float']['output']>;
+  votesCount?: Maybe<Scalars['Float']['output']>;
+};
+
+export type SearchBookmarkInput = {
+  count?: InputMaybe<Scalars['Int']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  type?: InputMaybe<CollectionName>;
+};
+
+export type SearchBookmarkOutput = {
+  __typename?: 'SearchBookmarkOutput';
+  results?: Maybe<Array<BookmarkEntity>>;
+  success: Scalars['Boolean']['output'];
+  totalCount?: Maybe<Scalars['Int']['output']>;
+  totalPages?: Maybe<Scalars['Int']['output']>;
+};
+
+export type SearchBusinessInput = {
+  count?: InputMaybe<Scalars['Int']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  text?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type SearchBusinessOutput = {
+  __typename?: 'SearchBusinessOutput';
+  results?: Maybe<Array<BusinessEntity>>;
+  success: Scalars['Boolean']['output'];
+  totalCount?: Maybe<Scalars['Int']['output']>;
+  totalPages?: Maybe<Scalars['Int']['output']>;
+};
+
+export type SearchFavoriteInput = {
+  count?: InputMaybe<Scalars['Int']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  type?: InputMaybe<CollectionName>;
+};
+
+export type SearchFavoriteOutput = {
+  __typename?: 'SearchFavoriteOutput';
+  results?: Maybe<Array<FavoriteEntity>>;
+  success: Scalars['Boolean']['output'];
+  totalCount?: Maybe<Scalars['Int']['output']>;
+  totalPages?: Maybe<Scalars['Int']['output']>;
+};
+
+export type SearchImagesInput = {
+  count?: InputMaybe<Scalars['Int']['input']>;
+  filename?: InputMaybe<Scalars['String']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+};
+
+export type SearchImagesOutput = {
+  __typename?: 'SearchImagesOutput';
+  results?: Maybe<Array<ImageType>>;
+  success: Scalars['Boolean']['output'];
+  totalCount?: Maybe<Scalars['Int']['output']>;
+  totalPages?: Maybe<Scalars['Int']['output']>;
+};
+
 export type SearchPermissionInput = {
   count?: InputMaybe<Scalars['Int']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
@@ -401,6 +1059,26 @@ export type SearchPermissionInput = {
 export type SearchPermissionOutput = {
   __typename?: 'SearchPermissionOutput';
   results?: Maybe<Array<PermissionEntity>>;
+  success: Scalars['Boolean']['output'];
+  totalCount?: Maybe<Scalars['Int']['output']>;
+  totalPages?: Maybe<Scalars['Int']['output']>;
+};
+
+export type SearchReviewInput = {
+  approved?: InputMaybe<BooleanEnum>;
+  author?: InputMaybe<Scalars['String']['input']>;
+  authorEmail?: InputMaybe<Scalars['String']['input']>;
+  count?: InputMaybe<Scalars['Int']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  parent?: InputMaybe<Scalars['String']['input']>;
+  post?: InputMaybe<Scalars['String']['input']>;
+  type?: InputMaybe<ReviewType>;
+  user?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type SearchReviewOutput = {
+  __typename?: 'SearchReviewOutput';
+  results?: Maybe<Array<ReviewEntity>>;
   success: Scalars['Boolean']['output'];
   totalCount?: Maybe<Scalars['Int']['output']>;
   totalPages?: Maybe<Scalars['Int']['output']>;
@@ -543,12 +1221,17 @@ export type TaxonomyMutationUpdateTaxonomyArgs = {
 export type TaxonomyQuery = {
   __typename?: 'TaxonomyQuery';
   findTaxonomyById: FindTaxonomyOutput;
+  findTaxonomyByIds: FindTaxonomyByIdsOutput;
   findTaxonomyBySlug: FindTaxonomyOutput;
   searchTaxonomy: SearchTaxonomyOutput;
 };
 
 export type TaxonomyQueryFindTaxonomyByIdArgs = {
   input: FindTaxonomyInput;
+};
+
+export type TaxonomyQueryFindTaxonomyByIdsArgs = {
+  input: FindTaxonomyByIdsInput;
 };
 
 export type TaxonomyQueryFindTaxonomyBySlugArgs = {
@@ -564,6 +1247,50 @@ export enum TaxonomyType {
   Tag = 'TAG',
 }
 
+export type TimeRange = {
+  from?: InputMaybe<Scalars['String']['input']>;
+  to?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type TimeRangeType = {
+  __typename?: 'TimeRangeType';
+  from?: Maybe<Scalars['String']['output']>;
+  to?: Maybe<Scalars['String']['output']>;
+};
+
+export type UpdateBusinessInput = {
+  address?: InputMaybe<Scalars['String']['input']>;
+  address2?: InputMaybe<Scalars['String']['input']>;
+  description?: InputMaybe<Scalars['String']['input']>;
+  email?: InputMaybe<Scalars['String']['input']>;
+  id: Scalars['String']['input'];
+  images?: InputMaybe<Array<Scalars['String']['input']>>;
+  lat?: InputMaybe<Scalars['Float']['input']>;
+  long?: InputMaybe<Scalars['Float']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  phone?: InputMaybe<Scalars['String']['input']>;
+  slug?: InputMaybe<Scalars['String']['input']>;
+  taxonomies?: InputMaybe<Array<Scalars['String']['input']>>;
+  thumbnail?: InputMaybe<Scalars['String']['input']>;
+  webAddress?: InputMaybe<Scalars['String']['input']>;
+  workHour?: InputMaybe<Array<WorkHour>>;
+};
+
+export type UpdateBusinessOutput = {
+  __typename?: 'UpdateBusinessOutput';
+  success: Scalars['Boolean']['output'];
+};
+
+export type UpdateImageInput = {
+  alt?: InputMaybe<Scalars['String']['input']>;
+  id: Scalars['String']['input'];
+};
+
+export type UpdateImageOutput = {
+  __typename?: 'UpdateImageOutput';
+  success: Scalars['Boolean']['output'];
+};
+
 export type UpdatePermissionInput = {
   name?: InputMaybe<Scalars['String']['input']>;
   permissionId: Scalars['String']['input'];
@@ -572,6 +1299,21 @@ export type UpdatePermissionInput = {
 
 export type UpdatePermissionOutput = {
   __typename?: 'UpdatePermissionOutput';
+  success: Scalars['Boolean']['output'];
+};
+
+export type UpdateReviewInput = {
+  approved?: InputMaybe<BooleanEnum>;
+  author?: InputMaybe<Scalars['String']['input']>;
+  authorEmail?: InputMaybe<Scalars['String']['input']>;
+  content?: InputMaybe<Scalars['String']['input']>;
+  createUser?: InputMaybe<UserOutputInputType>;
+  id: Scalars['String']['input'];
+  parent?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type UpdateReviewOutput = {
+  __typename?: 'UpdateReviewOutput';
   success: Scalars['Boolean']['output'];
 };
 
@@ -617,6 +1359,16 @@ export type UpdateUserOutput = {
   success: Scalars['Boolean']['output'];
 };
 
+export type UploadImageInputType = {
+  alt?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type UploadImageOutput = {
+  __typename?: 'UploadImageOutput';
+  imageId: Scalars['String']['output'];
+  success: Scalars['Boolean']['output'];
+};
+
 export type UserEntity = {
   __typename?: 'UserEntity';
   _id: Scalars['String']['output'];
@@ -647,6 +1399,29 @@ export type UserMutationDeleteUserArgs = {
 
 export type UserMutationUpdateUserArgs = {
   input: UpdateUserInput;
+};
+
+export type UserOutputInputType = {
+  _id: Scalars['String']['input'];
+  createdAt?: InputMaybe<Scalars['String']['input']>;
+  displayName?: InputMaybe<Scalars['String']['input']>;
+  email?: InputMaybe<Scalars['String']['input']>;
+  isVerified?: InputMaybe<Scalars['Boolean']['input']>;
+  phone?: InputMaybe<Scalars['String']['input']>;
+  roles: Array<Scalars['String']['input']>;
+  updatedAt?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type UserOutputType = {
+  __typename?: 'UserOutputType';
+  _id: Scalars['String']['output'];
+  createdAt?: Maybe<Scalars['String']['output']>;
+  displayName?: Maybe<Scalars['String']['output']>;
+  email?: Maybe<Scalars['String']['output']>;
+  isVerified?: Maybe<Scalars['Boolean']['output']>;
+  phone?: Maybe<Scalars['String']['output']>;
+  roles: Array<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['String']['output']>;
 };
 
 export type UserQuery = {
@@ -683,4 +1458,26 @@ export type ValidateVerificationCodeInput = {
   email?: InputMaybe<Scalars['String']['input']>;
   password: Scalars['String']['input'];
   phone?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type VotesDetail = {
+  __typename?: 'VotesDetail';
+  post?: Maybe<Scalars['String']['output']>;
+  scoreGroup?: Maybe<Array<Score>>;
+  totalVotesCount?: Maybe<Scalars['Float']['output']>;
+};
+
+export type WorkHour = {
+  closed?: InputMaybe<Scalars['Boolean']['input']>;
+  day?: InputMaybe<Scalars['String']['input']>;
+  open24Hours?: InputMaybe<Scalars['Boolean']['input']>;
+  timeRanges?: InputMaybe<Array<TimeRange>>;
+};
+
+export type WorkHourType = {
+  __typename?: 'WorkHourType';
+  closed?: Maybe<Scalars['Boolean']['output']>;
+  day?: Maybe<Scalars['String']['output']>;
+  open24Hours?: Maybe<Scalars['Boolean']['output']>;
+  timeRanges?: Maybe<Array<TimeRangeType>>;
 };

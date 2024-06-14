@@ -28,6 +28,7 @@ export const buttonRecipe = defineRecipe({
       contained: {color: 'white'},
       outlined: {
         color: 'primary_500',
+        border: '1px solid',
         _hover: {
           color: 'primary_500',
         },
@@ -41,6 +42,7 @@ export const buttonRecipe = defineRecipe({
     },
     size: {
       lg: {height: '14', textStyle: 'buttonText', minWidth: '16', padding: 2},
+      md: {textStyle: 'buttonText', minWidth: '16', px: '4', py: '2.5'},
       sm: {height: 'max-content', textStyle: 'body12_medium', minWidth: '16', padding: 0},
     },
     color: {
@@ -61,6 +63,7 @@ export const buttonRecipe = defineRecipe({
       textSecondary: {},
       textInverted: {},
       textVariant: {},
+      grey: {},
     },
     disabled: {
       true: {
@@ -125,6 +128,16 @@ export const buttonRecipe = defineRecipe({
         border: '1px solid',
         borderColor: 'error_100',
         _hover: {bg: 'error_20'},
+      },
+    },
+    {
+      visual: 'outlined',
+      color: 'grey',
+      css: {
+        border: '1px solid',
+        borderColor: 'grey_500',
+        color: 'grey_500',
+        _hover: {bg: 'grey_100'},
       },
     },
   ],

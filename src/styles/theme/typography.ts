@@ -4,6 +4,7 @@ import {TextStyle} from '@styled/types/composition';
 const fontWeight = {
   medium: '500',
   semibold: '600',
+  bold: '700',
   extrabold: '800',
 };
 
@@ -26,6 +27,14 @@ export const textStyles = defineTextStyles({
       fontWeight: fontWeight.extrabold,
       fontSize: '68px',
       lineHeight: '102px',
+    }),
+  },
+  heading1: {
+    description: '',
+    value: getText({
+      fontWeight: fontWeight.bold,
+      fontSize: '48px',
+      lineHeight: '56px',
     }),
   },
   display2: {
@@ -130,6 +139,14 @@ export const textStyles = defineTextStyles({
       fontWeight: fontWeight.medium,
       fontSize: '12px',
       lineHeight: '18px',
+    }),
+  },
+  caption: {
+    description: '',
+    value: getText({
+      fontWeight: fontWeight.semibold,
+      fontSize: '16px',
+      lineHeight: '24px',
     }),
   },
 });

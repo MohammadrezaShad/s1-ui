@@ -1,5 +1,5 @@
 export enum FormStatus {
   SUCCESS = 'success',
-  ERROR = 'ERROR',
-  UNSET = 'UNSET',
+  ERROR = 'error',
+  UNSET = 'unset',
 }

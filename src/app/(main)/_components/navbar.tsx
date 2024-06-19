@@ -63,6 +63,7 @@ const Navbar: React.FC = () => {
                     color: 'black',
                     rounded: 'rounded',
                     shadow: 'lg',
+                    zIndex: 2,
                   })}
                 >
                   <div

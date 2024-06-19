@@ -15,7 +15,6 @@ export async function POST(request: NextRequest) {
 
   try {
     const res = await uploadImage(file, {}, token);
-    console.log('🚀 ~ POST ~ res:', res);
     if (res.success) {
       return Response.json({id: res.imageId});
     }
@@ -24,21 +23,3 @@ export async function POST(request: NextRequest) {
     return Response.error();
   }
 }
-
-// export async function DELETE(request: NextRequest) {
-//   const token = getCookie(CookieName.AUTH_TOKEN)!;
-//   const body = await request.text();
-//   const regex = /data-id=([^&]+)/;
-//   const match = body.match(regex);
-//   if (match) {
-//     // The data-id value is captured in the first capturing group (index 1)
-//     const dataId = match[1];
-//     console.log("Data ID:", dataId);
-//     const res = deleteImages({ ids: [dataId] }, token);
-//   } else {
-//     console.log("Data ID not found in the string.");
-//     return Response.error();
-//   }
-
-//   return Response.json({});
-// }

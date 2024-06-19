@@ -5,7 +5,11 @@ import Link from 'next/link';
 
 import {Button} from '@/components';
 
-const OwnershipBox: React.FC = () => (
+interface Props {
+  businessName: string;
+}
+
+const OwnershipBox: React.FC<Props> = ({businessName}) => (
   <div
     className={css({
       bgColor: 'white',
@@ -23,9 +27,9 @@ const OwnershipBox: React.FC = () => (
         <MdClose className={css({w: '6', h: '6'})} />
       </span>
     </div>
-    <div className={css({display: 'flex', alignItems: 'center'})}>
-      <span className={css({color: 'gray.600'})}>business</span>
-      <span className={css({ml: '2', color: 'gray.800', fontWeight: 'semibold'})}>
+    <div className={css({display: 'flex', flexDir: 'column'})}>
+      <span className={css({color: 'gray.600'})}>{businessName}</span>
+      <span className={css({color: 'gray.800', fontWeight: 'semibold'})}>
         Is this your business?
       </span>
     </div>

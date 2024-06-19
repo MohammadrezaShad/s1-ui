@@ -2,6 +2,7 @@
 
 import {useEffect} from 'react';
 import {useFormState, useFormStatus} from 'react-dom';
+import toast from 'react-hot-toast';
 import {css} from '@styled/css';
 import {useRouter} from 'next/navigation';
 
@@ -24,6 +25,11 @@ function CreateBusinessForm() {
   useEffect(() => {
     if (formState?.status === FormStatus.SUCCESS) {
       router.push(`/setup/${formState.data.data.id}/operation-hours`);
+    } else if (
+      formState?.status === FormStatus.ERROR &&
+      Object.keys(formState.fieldErrors).length === 0
+    ) {
+      toast.error(formState.message);
     }
   }, [formState, router]);
 

@@ -125,13 +125,14 @@ export type BusinessEntity = {
   _id: Scalars['String']['output'];
   address?: Maybe<Scalars['String']['output']>;
   address2?: Maybe<Scalars['String']['output']>;
+  businessScore?: Maybe<ReviewRateDetailType>;
   createdAt?: Maybe<Scalars['String']['output']>;
   description?: Maybe<Scalars['String']['output']>;
   email?: Maybe<Scalars['String']['output']>;
-  favoriteCount: Scalars['Float']['output'];
+  favoriteCount?: Maybe<Scalars['Float']['output']>;
   images?: Maybe<Array<ImageType>>;
-  isUserBookmark: Scalars['Boolean']['output'];
-  isUserFavorite: Scalars['Boolean']['output'];
+  isUserBookmark?: Maybe<Scalars['Boolean']['output']>;
+  isUserFavorite?: Maybe<Scalars['Boolean']['output']>;
   lat?: Maybe<Scalars['Float']['output']>;
   long?: Maybe<Scalars['Float']['output']>;
   name: Scalars['String']['output'];
@@ -141,6 +142,7 @@ export type BusinessEntity = {
   thumbnail?: Maybe<ImageType>;
   updatedAt?: Maybe<Scalars['String']['output']>;
   user?: Maybe<UserOutputType>;
+  userBusinessScore?: Maybe<Scalars['Float']['output']>;
   webAddress?: Maybe<Scalars['String']['output']>;
   workHour?: Maybe<Array<WorkHourType>>;
 };
@@ -436,6 +438,7 @@ export type DeleteUserOutput = {
 export type EditReviewInput = {
   content?: InputMaybe<Scalars['String']['input']>;
   id: Scalars['String']['input'];
+  score?: InputMaybe<Scalars['Float']['input']>;
 };
 
 export type EditReviewOutput = {
@@ -930,6 +933,14 @@ export type ReviewQuerySearchReviewArgs = {
   input: SearchReviewInput;
 };
 
+export type ReviewRateDetailType = {
+  __typename?: 'ReviewRateDetailType';
+  bestRating?: Maybe<Scalars['Float']['output']>;
+  ratingCount?: Maybe<Scalars['Float']['output']>;
+  ratingValue?: Maybe<Scalars['Float']['output']>;
+  worstRating?: Maybe<Scalars['Float']['output']>;
+};
+
 export enum ReviewType {
   Business = 'BUSINESS',
 }
@@ -1372,9 +1383,11 @@ export type UploadImageOutput = {
 export type UserEntity = {
   __typename?: 'UserEntity';
   _id: Scalars['String']['output'];
+  bookmarks?: Maybe<Array<BookmarkEntity>>;
   createdAt?: Maybe<Scalars['String']['output']>;
   displayName?: Maybe<Scalars['String']['output']>;
   email?: Maybe<Scalars['String']['output']>;
+  favorites?: Maybe<Array<FavoriteEntity>>;
   isVerified?: Maybe<Scalars['Boolean']['output']>;
   permissions?: Maybe<Array<PermissionEntity>>;
   phone?: Maybe<Scalars['String']['output']>;

@@ -28,7 +28,7 @@ function Page() {
           color: 'grey_600',
         })}
       >
-        You&apos;re Business is ready to rock!
+        Your Business is ready to rock!
       </h1>
       <p
         className={css({

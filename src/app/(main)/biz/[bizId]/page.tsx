@@ -1,14 +1,16 @@
 import {FaUserCircle} from 'react-icons/fa';
 import {css} from '@styled/css';
 import {cookies} from 'next/headers';
+import {redirect} from 'next/navigation';
 
 import {Button} from '@/components';
 import {CookieName} from '@/constants';
-import {findBusinessById, getProfile} from '@/graphql';
+import {findBusinessById, getProfile, searchBusiness} from '@/graphql';
 import {BusinessEntity} from '@/graphql/generated/types';
 
 import BusinessActions from './_components/actions';
 import AddressBox from './_components/address-box';
+import BusinessCard from './_components/business-card';
 import BusinessHours from './_components/business-hours';
 import CommentBox from './_components/comment-box';
 import MainHeader from './_components/header';
@@ -17,6 +19,7 @@ import Rating from './_components/rating';
 import Scores from './_components/scores';
 import {
   Amenity,
+  CardsWrapper,
   Contacts,
   Container,
   Details,
@@ -62,6 +65,17 @@ async function Page({params}: {params: {bizId: string}}) {
 
   const business = data.result;
   const currentUser = userData.result;
+
+  if (!business) redirect('/');
+
+  const businessTaxonomies = business.taxonomies?.map(taxonomy => taxonomy._id);
+
+  const relatedBusinessData = await searchBusiness({
+    taxonomies: businessTaxonomies,
+    count: 5,
+  });
+
+  const relatedBusinesses = relatedBusinessData.results as BusinessEntity[];
 
   return (
     <div>
@@ -114,11 +128,11 @@ async function Page({params}: {params: {bizId: string}}) {
                 <RatingsContainer>
                   <RatingsWrapper>
                     <p>Overall Rating</p>
-                    <Rating rating={business?.businessScore?.ratingValue ?? 0} />
-                    <span>{business?.businessScore?.ratingCount ?? 0} Reviews</span>
+                    <Rating rating={business.businessScore?.ratingValue ?? 0} />
+                    <span>{business.businessScore?.ratingCount ?? 0} Reviews</span>
                   </RatingsWrapper>
                   <ScoresWrapper>
-                    <Scores />
+                    <Scores scoreDetails={business.businessScoreDetail} />
                   </ScoresWrapper>
                 </RatingsContainer>
                 <VisitorInfoContainer>
@@ -129,7 +143,7 @@ async function Page({params}: {params: {bizId: string}}) {
                         {currentUser?.displayName}
                       </div>
                       <div className={css({color: 'gray.500', fontSize: 'sm'})}>
-                        {currentUser?.email}
+                        {`${currentUser?.country}, ${currentUser?.city}`}
                       </div>
                     </div>
                   </VisitorInfoWrapper>
@@ -139,7 +153,7 @@ async function Page({params}: {params: {bizId: string}}) {
                       <span className={css({fontSize: 'sm'})}>Select your rating</span>
                     </VisitorRatingWrapper>
                     <ReviewLink href='/'>
-                      Start your review of <span>{business?.name}</span>
+                      Start your review of <span>{business.name}</span>
                     </ReviewLink>
                   </VisitorReviewWrapper>
                 </VisitorInfoContainer>
@@ -150,13 +164,24 @@ async function Page({params}: {params: {bizId: string}}) {
           </Details>
           <Contacts>
             <AddressBox
-              phoneNumber={business?.phone as string}
-              address={business?.address as string}
-              website={business?.webAddress as string}
+              phoneNumber={business.phone as string}
+              address={business.address as string}
+              website={business.webAddress as string}
             />
-            <OwnershipBox businessName={business?.name as string} />
+            <OwnershipBox businessName={business.name as string} />
           </Contacts>
         </Wrapper>
+
+        {relatedBusinesses?.length > 0 ? (
+          <Section>
+            <h2>People Also Viewed</h2>
+            <CardsWrapper>
+              {relatedBusinesses?.map(_business => (
+                <BusinessCard key={_business._id} business={_business} />
+              ))}
+            </CardsWrapper>
+          </Section>
+        ) : null}
       </Container>
     </div>
   );

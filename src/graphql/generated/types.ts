@@ -126,6 +126,7 @@ export type BusinessEntity = {
   address?: Maybe<Scalars['String']['output']>;
   address2?: Maybe<Scalars['String']['output']>;
   businessScore?: Maybe<ReviewRateDetailType>;
+  businessScoreDetail?: Maybe<VotesDetail>;
   createdAt?: Maybe<Scalars['String']['output']>;
   description?: Maybe<Scalars['String']['output']>;
   email?: Maybe<Scalars['String']['output']>;
@@ -320,6 +321,9 @@ export type CreateTaxonomyOutput = {
 };
 
 export type CreateUserInput = {
+  address?: InputMaybe<Scalars['String']['input']>;
+  city?: InputMaybe<Scalars['String']['input']>;
+  country?: InputMaybe<Scalars['String']['input']>;
   displayName?: InputMaybe<Scalars['String']['input']>;
   email?: InputMaybe<Scalars['String']['input']>;
   isVerified?: InputMaybe<Scalars['Boolean']['input']>;
@@ -659,7 +663,8 @@ export type GetProfileOutput = {
 };
 
 export type GetVotesDetailInput = {
-  type: ReviewType;
+  post?: InputMaybe<Scalars['String']['input']>;
+  type?: InputMaybe<ReviewType>;
 };
 
 export type ImageMutation = {
@@ -1022,7 +1027,9 @@ export type SearchBookmarkOutput = {
 export type SearchBusinessInput = {
   count?: InputMaybe<Scalars['Int']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
+  taxonomies?: InputMaybe<Array<Scalars['String']['input']>>;
   text?: InputMaybe<Scalars['String']['input']>;
+  user?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type SearchBusinessOutput = {
@@ -1355,6 +1362,9 @@ export type UpdateTaxonomyOutput = {
 };
 
 export type UpdateUserInput = {
+  address?: InputMaybe<Scalars['String']['input']>;
+  city?: InputMaybe<Scalars['String']['input']>;
+  country?: InputMaybe<Scalars['String']['input']>;
   displayName?: InputMaybe<Scalars['String']['input']>;
   email?: InputMaybe<Scalars['String']['input']>;
   isVerified?: InputMaybe<Scalars['Boolean']['input']>;
@@ -1383,7 +1393,10 @@ export type UploadImageOutput = {
 export type UserEntity = {
   __typename?: 'UserEntity';
   _id: Scalars['String']['output'];
+  address?: Maybe<Scalars['String']['output']>;
   bookmarks?: Maybe<Array<BookmarkEntity>>;
+  city?: Maybe<Scalars['String']['output']>;
+  country?: Maybe<Scalars['String']['output']>;
   createdAt?: Maybe<Scalars['String']['output']>;
   displayName?: Maybe<Scalars['String']['output']>;
   email?: Maybe<Scalars['String']['output']>;
@@ -1416,6 +1429,9 @@ export type UserMutationUpdateUserArgs = {
 
 export type UserOutputInputType = {
   _id: Scalars['String']['input'];
+  address?: InputMaybe<Scalars['String']['input']>;
+  city?: InputMaybe<Scalars['String']['input']>;
+  country?: InputMaybe<Scalars['String']['input']>;
   createdAt?: InputMaybe<Scalars['String']['input']>;
   displayName?: InputMaybe<Scalars['String']['input']>;
   email?: InputMaybe<Scalars['String']['input']>;
@@ -1428,6 +1444,9 @@ export type UserOutputInputType = {
 export type UserOutputType = {
   __typename?: 'UserOutputType';
   _id: Scalars['String']['output'];
+  address?: Maybe<Scalars['String']['output']>;
+  city?: Maybe<Scalars['String']['output']>;
+  country?: Maybe<Scalars['String']['output']>;
   createdAt?: Maybe<Scalars['String']['output']>;
   displayName?: Maybe<Scalars['String']['output']>;
   email?: Maybe<Scalars['String']['output']>;

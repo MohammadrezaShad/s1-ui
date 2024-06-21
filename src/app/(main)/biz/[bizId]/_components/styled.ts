@@ -1,4 +1,4 @@
-import {styled} from '@styled/jsx';
+import {Box, styled} from '@styled/jsx';
 import Link from 'next/link';
 
 export const Header = styled('div', {
@@ -232,4 +232,39 @@ export const Contacts = styled('div', {
     alignSelf: 'start',
     top: '0',
   },
+});
+
+export const CardsWrapper = styled('div', {
+  base: {
+    display: 'grid',
+    gridTemplateColumns: '4',
+    gap: '4',
+    gridTemplateRows: '1',
+  },
+});
+
+export const ImageWrapper = styled(Box, {
+  base: {
+    rounded: 'md',
+    overflow: 'hidden',
+    mb: '2',
+    '& > img': {objectFit: 'cover', w: 'full', h: '[186px]'},
+  },
+});
+
+export const CardTitle = styled('p', {
+  base: {textStyle: 'caption', fontWeight: 700, color: 'grey_800'},
+});
+
+export const Ratings = styled('div', {
+  base: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '2',
+    '& > span': {color: 'grey_400', fontSize: 'sm'},
+  },
+});
+
+export const BusinessCategory = styled('span', {
+  base: {color: 'grey_400', fontSize: 'xs'},
 });

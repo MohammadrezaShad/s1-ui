@@ -1,20 +1,22 @@
 import {getCookie} from 'cookies-next';
 
 import {CookieName} from '@/constants';
-import {BusinessQuery, FindBusinessByIdInput} from '@/graphql/generated/types';
+import {BusinessQuery, SearchBusinessInput} from '@/graphql/generated/types';
 import {gqlFetch} from '@/services/fetch';
 
-export async function findBusinessById(
-  input: FindBusinessByIdInput,
-): Promise<BusinessQuery['findBusinessById']> {
+export async function searchBusiness(
+  input: SearchBusinessInput,
+): Promise<BusinessQuery['searchBusiness']> {
   const clientId = getCookie(CookieName.CLIENT_ID) as string;
   const res = await gqlFetch({
     url: process.env.API_BASE_URL as string,
-    query: `query findBusinessById($input: FindBusinessByIdInput!) {
+    query: `query searchBusiness($input: SearchBusinessInput!) {
         business {
-          findBusinessById(input: $input) {
+          searchBusiness(input: $input) {
             success
-            result {
+            totalCount
+            totalPages
+            results {
               _id
               name
               slug
@@ -110,5 +112,5 @@ export async function findBusinessById(
   if (response.errors?.[0]?.message) {
     throw new Error(response.errors?.[0]?.message);
   }
-  return response.data.business.findBusinessById;
+  return response.data.business.searchBusiness;
 }

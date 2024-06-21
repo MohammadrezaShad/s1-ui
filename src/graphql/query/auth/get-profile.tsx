@@ -14,6 +14,9 @@ export async function getProfile(token: string): Promise<AuthQuery['getProfile']
                 success
                 result {
                     _id
+                    city
+                    country
+                    address
                     bookmarks {
                     _id
                     createdAt

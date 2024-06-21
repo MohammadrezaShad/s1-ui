@@ -63,6 +63,7 @@ export async function findBusinessById(
                 title
                 type
                 updatedAt
+                _id
               }
               thumbnail {
                 _id

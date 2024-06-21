@@ -1,6 +1,6 @@
 'use client';
 
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import {useFormState, useFormStatus} from 'react-dom';
 import toast from 'react-hot-toast';
 import {css} from '@styled/css';
@@ -14,13 +14,20 @@ import {
 } from '@/app/(authentication)/login/_components/login-view.styled';
 import {Button, FieldError} from '@/components';
 import {FormStatus} from '@/constants';
+import {TaxonomyEntity} from '@/graphql/generated/types';
 import {EMPTY_FORM_STATE} from '@/utils';
 
 import signupBusiness from '../_actions/signup-business';
+import AsyncAutocompleteInput from './async-autocomplete';
 
 function CreateBusinessForm() {
   const [formState, action] = useFormState(signupBusiness, EMPTY_FORM_STATE);
+  const [selectedCategories, setSelectedCategories] = useState<TaxonomyEntity[]>([]);
   const router = useRouter();
+
+  const handleCategoryRemove = (id: string) => {
+    setSelectedCategories(prev => prev.filter(category => category._id !== id));
+  };
 
   useEffect(() => {
     if (formState?.status === FormStatus.SUCCESS) {
@@ -35,6 +42,11 @@ function CreateBusinessForm() {
 
   return (
     <form className={css({mt: '8'})} action={action}>
+      <input
+        type='hidden'
+        name='categories'
+        value={selectedCategories.map(category => category._id)}
+      />
       <TextField className={css({mb: '8'})}>
         <Label htmlFor='business-name'>Business name</Label>
         <InputWrapper>
@@ -63,13 +75,12 @@ function CreateBusinessForm() {
         </InputWrapper>
         <FieldError formState={formState} name='zipCode' />
       </TextField>
-      <TextField className={css({mb: '8'})}>
-        <Label htmlFor='categories'>Categories</Label>
-        <InputWrapper>
-          <Input type='text' id='categories' name='categories' />
-        </InputWrapper>
-        <FieldError formState={formState} name='categories' />
-      </TextField>
+      <AsyncAutocompleteInput
+        onCategoryRemove={handleCategoryRemove}
+        selectedCategories={selectedCategories}
+        setSelectedCategories={setSelectedCategories}
+      />
+      <FieldError formState={formState} name='categories' />
       <TextField className={css({mb: '8'})}>
         <Label htmlFor='phone-number'>Business phone number</Label>
         <InputWrapper>

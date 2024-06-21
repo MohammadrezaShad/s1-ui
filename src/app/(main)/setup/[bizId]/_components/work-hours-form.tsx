@@ -167,23 +167,29 @@ const WorkHoursForm = () => {
               )}
             </div>
             <div className={css({display: 'flex', flexDir: 'column', gap: '2', mx: '4'})}>
-              <label htmlFor='open24Hours' className={css({display: 'flex', alignItems: 'center'})}>
+              <label
+                htmlFor={`open24Hours-${dayIndex}`}
+                className={css({display: 'flex', alignItems: 'center'})}
+              >
                 <input
                   type='checkbox'
                   checked={hour.open24Hours}
                   onChange={() => handleCheckboxChange(dayIndex, 'open24Hours')}
                   className={css({mr: '1.5'})}
-                  id='open24Hours'
+                  id={`open24Hours-${dayIndex}`}
                 />
                 <span>Open 24 hours</span>
               </label>
-              <label htmlFor='closed' className={css({display: 'flex', alignItems: 'center'})}>
+              <label
+                htmlFor={`closed-${dayIndex}`}
+                className={css({display: 'flex', alignItems: 'center'})}
+              >
                 <input
                   type='checkbox'
                   checked={hour.closed}
                   onChange={() => handleCheckboxChange(dayIndex, 'closed')}
                   className={css({mr: '1.5'})}
-                  id='closed'
+                  id={`closed-${dayIndex}`}
                 />
                 <span>Closed</span>
               </label>

@@ -21,7 +21,7 @@ async function signupBusiness(formState: any, data: FormData) {
     city: z.string().min(1, {message: 'This field has to be filled.'}).max(191),
     state: z.string().min(1, {message: 'This field has to be filled.'}).max(191),
     zipCode: z.string().min(5, {message: 'This field has to be filled.'}).max(191),
-    categories: z.string(),
+    categories: z.string().optional(),
     email: z
       .string()
       .min(1, {message: 'This field has to be filled.'})
@@ -49,7 +49,7 @@ async function signupBusiness(formState: any, data: FormData) {
         address: `${zipCode} ${address} ${city} ${state}`,
         email,
         phone,
-        // taxonomies: categories.split(','),
+        taxonomies: categories?.split(',') || [],
         slug,
       },
       token,

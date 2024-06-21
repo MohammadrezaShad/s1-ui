@@ -143,7 +143,7 @@ async function Page({params}: {params: {bizId: string}}) {
                         {currentUser?.displayName}
                       </div>
                       <div className={css({color: 'gray.500', fontSize: 'sm'})}>
-                        {`${currentUser?.country}, ${currentUser?.city}`}
+                        {`${currentUser?.country || ''} ${currentUser?.city || ''}`}
                       </div>
                     </div>
                   </VisitorInfoWrapper>

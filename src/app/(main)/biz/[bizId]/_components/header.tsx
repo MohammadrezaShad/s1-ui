@@ -61,9 +61,13 @@ function MainHeader({business}: Props) {
 
           {business?.taxonomies?.length ? (
             <span>
-              <Taxonomy>{`${business?.taxonomies?.[0]} `}</Taxonomy>
-              <Taxonomy>{`${business?.taxonomies?.[1]} `}</Taxonomy>
-              <Taxonomy>{`${business?.taxonomies?.[2]}`}</Taxonomy>
+              <Taxonomy>{`${business?.taxonomies?.[0]?.title} `}</Taxonomy>
+              {business?.taxonomies?.[1] && (
+                <Taxonomy>{`${business?.taxonomies?.[1]?.title} `}</Taxonomy>
+              )}
+              {business?.taxonomies?.[2] && (
+                <Taxonomy>{`${business?.taxonomies?.[2]?.title}`}</Taxonomy>
+              )}
             </span>
           ) : null}
           <div className={css({display: 'flex', alignItems: 'center', gap: 1})}>

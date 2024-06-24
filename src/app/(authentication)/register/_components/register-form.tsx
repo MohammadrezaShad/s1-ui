@@ -2,6 +2,7 @@
 
 import {useState} from 'react';
 import toast from 'react-hot-toast';
+import PhoneInput from 'react-phone-input-2';
 import {css} from '@styled/css';
 import {Flex} from '@styled/jsx';
 import {useRouter} from 'next/navigation';
@@ -10,6 +11,8 @@ import {z, ZodError} from 'zod';
 import {IconEmail, IconLock, IconUser} from '@/assets';
 import {Button} from '@/components';
 import {signUp} from '@/graphql';
+
+import 'react-phone-input-2/lib/style.css';
 
 import GoogleButton from '../../_components/google-button';
 import {
@@ -24,6 +27,7 @@ import {
 function Form() {
   const [pending, setPending] = useState(false);
   const [errors, setErrors] = useState<any>();
+  const [phone, setPhone] = useState<string>();
   const router = useRouter();
   const googleLogin = () => {
     window.location.href = process.env.NEXT_PUBLIC_GOOGLE_AUTH_URL as string;
@@ -41,20 +45,19 @@ function Form() {
         .min(6, {message: 'This field has to be filled.'})
         .email('This is not a valid email.'),
       password: z.string().min(8, {message: 'Password must be at least 8 characters.'}).max(191),
-      phone: z.string().min(10, {message: 'This field has to be at leat 10 digits.'}).max(11),
+      phone: z.string().min(10, {message: 'This field has to be at leat 10 digits.'}).max(15),
     });
 
     const displayNameRef = document.querySelector('#display-name')! as HTMLInputElement;
     const emailRef = document.querySelector('#email')! as HTMLInputElement;
     const passwordRef = document.querySelector('#password')! as HTMLInputElement;
-    const phoneRef = document.querySelector('#phone')! as HTMLInputElement;
 
     try {
-      const {displayName, password, email, phone} = createRegisterSchema.parse({
+      const {displayName, password, email} = createRegisterSchema.parse({
         displayName: displayNameRef.value,
         email: emailRef.value,
         password: passwordRef.value,
-        phone: phoneRef.value,
+        phone,
       });
       setPending(true);
       const response = await signUp({displayName, email, password, phone});
@@ -117,7 +120,11 @@ function Form() {
         <Label htmlFor='name'>Phone number:</Label>
         <InputWrapper>
           <IconUser className={css({w: '6', h: '6'})} />
-          <Input type='tel' id='phone' name='phone' autoComplete='mobile tel' required />
+          <PhoneInput
+            containerClass='border-0'
+            inputClass='border-0'
+            onChange={_phone => setPhone(_phone)}
+          />
         </InputWrapper>
         {errors?.phone && (
           <span

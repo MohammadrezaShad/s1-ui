@@ -27,7 +27,7 @@ async function signupBusiness(formState: any, data: FormData) {
       .min(1, {message: 'This field has to be filled.'})
       .email('This is not a valid email.'),
     address: z.string().min(3, {message: 'Address must be at least 3 characters.'}).max(191),
-    phone: z.string().min(10, {message: 'This field has to be at leat 10 digits.'}).max(11),
+    phone: z.string().min(10, {message: 'This field has to be at leat 10 digits.'}).max(14),
   });
 
   try {

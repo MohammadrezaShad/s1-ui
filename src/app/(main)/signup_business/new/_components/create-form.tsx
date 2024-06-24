@@ -3,6 +3,7 @@
 import {useEffect, useState} from 'react';
 import {useFormState, useFormStatus} from 'react-dom';
 import toast from 'react-hot-toast';
+import PhoneInput from 'react-phone-input-2';
 import {css} from '@styled/css';
 import {useRouter} from 'next/navigation';
 
@@ -17,12 +18,15 @@ import {FormStatus} from '@/constants';
 import {TaxonomyEntity} from '@/graphql/generated/types';
 import {EMPTY_FORM_STATE} from '@/utils';
 
+import 'react-phone-input-2/lib/style.css';
+
 import signupBusiness from '../_actions/signup-business';
 import AsyncAutocompleteInput from './async-autocomplete';
 
 function CreateBusinessForm() {
   const [formState, action] = useFormState(signupBusiness, EMPTY_FORM_STATE);
   const [selectedCategories, setSelectedCategories] = useState<TaxonomyEntity[]>([]);
+  const [phone, setPhone] = useState<string>();
   const router = useRouter();
 
   const handleCategoryRemove = (id: string) => {
@@ -47,6 +51,7 @@ function CreateBusinessForm() {
         name='categories'
         value={selectedCategories.map(category => category._id)}
       />
+      <input type='hidden' name='phone-number' value={phone} />
       <TextField className={css({mb: '8'})}>
         <Label htmlFor='business-name'>Business name</Label>
         <InputWrapper>
@@ -84,7 +89,11 @@ function CreateBusinessForm() {
       <TextField className={css({mb: '8'})}>
         <Label htmlFor='phone-number'>Business phone number</Label>
         <InputWrapper>
-          <Input type='text' id='phone-number' name='phone-number' />
+          <PhoneInput
+            containerClass='border-0'
+            inputClass='border-0'
+            onChange={_phone => setPhone(_phone)}
+          />
         </InputWrapper>
         <FieldError formState={formState} name='phone' />
       </TextField>

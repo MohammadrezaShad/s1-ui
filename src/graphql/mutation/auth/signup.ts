@@ -7,7 +7,7 @@ import {gqlFetch} from '@/services/fetch';
 export async function signUp(input: SignupInput): Promise<AuthMutation['signup']> {
   const clientId = getCookie(CookieName.CLIENT_ID) as string;
   const res = await gqlFetch({
-    url: process.env.API_BASE_URL as string,
+    url: process.env.NEXT_PUBLIC_API_BASE_URL as string,
     query: `mutation Signup($input: SignupInput!) {
         auth {
           signup(input: $input) {

@@ -46,11 +46,18 @@ const PhotoUpload: React.FC<PhotoUploadProps> = ({token}: PhotoUploadProps) => {
     try {
       const imageIds: string[] = [];
       const responses = await Promise.all(promises);
-      responses.forEach(response => {
+
+      // Collect all JSON parsing promises
+      const jsonPromises = responses.map(response => {
         if (response.ok) {
-          response.json().then((res: any) => imageIds.push(res.id));
+          return response.json().then((res: any) => imageIds.push(res.id));
         }
+        // eslint-disable-next-line prefer-promise-reject-errors
+        return Promise.reject('Failed to upload image');
       });
+
+      // Wait for all JSON parsing promises to complete
+      await Promise.all(jsonPromises);
       const updateBusinessPhotosResponse = await fetch('/api/update-business', {
         method: 'POST',
         body: JSON.stringify({id: bizId as string, images: imageIds}),

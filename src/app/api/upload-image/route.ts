@@ -11,10 +11,10 @@ export async function POST(request: NextRequest) {
   const token = cookie.get(CookieName.ACCESS_TOKEN)?.value;
   if (!token) return Response.error();
   const formData = await request.formData();
-  const file = formData.getAll('file');
+  const files = formData.getAll('file');
 
   try {
-    const res = await uploadImage(file, {}, token);
+    const res = await uploadImage(files[0], {alt: ''}, token);
     if (res.success) {
       return Response.json({id: res.imageId});
     }

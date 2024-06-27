@@ -14,12 +14,12 @@ interface Props {
 }
 
 function BusinessCard({business}: Props) {
-  const {thumbnail, name, businessScore, taxonomies, _id} = business;
+  const {thumbnail, name, businessScore, taxonomies, _id, images} = business;
   return (
     <div>
       <ImageWrapper>
         <Image
-          src={`${storageUrl}/${thumbnail?._id}`}
+          src={thumbnail ? `${storageUrl}/${thumbnail?._id}` : `${storageUrl}/${images?.[0]?._id}`}
           alt={name}
           unoptimized
           width={240}

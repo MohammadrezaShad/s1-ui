@@ -1,7 +1,6 @@
 'use client';
 
 import {css} from '@styled/css';
-import Image from 'next/image';
 import {Swiper, SwiperSlide} from 'swiper/react';
 
 import {ImageType} from '@/graphql/generated/types';
@@ -44,7 +43,7 @@ function Slider({storageUrl, images}: Props) {
     >
       {images.map(image => (
         <SwiperSlide key={image._id}>
-          <Image
+          <img
             width={image.width}
             height={image.height}
             className={css({

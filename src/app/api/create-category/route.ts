@@ -11,9 +11,9 @@ export async function POST(request: NextRequest) {
   const body = await request.json();
 
   try {
-    const res: any = await createTaxonomy(body, token);
+    const res = await createTaxonomy(body, token);
     if (res.success) {
-      return Response.json({success: res.success, data: res.result!});
+      return Response.json({success: res.success, data: res.taxonomy});
     }
     return Response.error();
   } catch (error: Error | any) {

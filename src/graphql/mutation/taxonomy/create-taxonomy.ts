@@ -15,7 +15,7 @@ export async function createTaxonomy(
         taxonomy {
             createTaxonomy (input: $input) {
             success
-            result {
+            taxonomy {
                 _id
                 createdAt
                 description

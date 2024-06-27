@@ -32,7 +32,7 @@ function BusinessCard({business}: Props) {
         </CardTitle>
       </Box>
       <Ratings>
-        <Rating width='5' height='5' rating={3} />
+        <Rating width='5' height='5' rating={business.businessScore?.ratingValue ?? 0} />
         <span>{businessScore?.ratingCount}</span>
       </Ratings>
       <span>

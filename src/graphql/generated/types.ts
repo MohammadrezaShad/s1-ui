@@ -17,6 +17,17 @@ export type Scalars = {
   Upload: {input: any; output: any};
 };
 
+export type AnswerEntity = {
+  __typename?: 'AnswerEntity';
+  _id: Scalars['String']['output'];
+  approved?: Maybe<BooleanEnum>;
+  content: Scalars['String']['output'];
+  createdAt?: Maybe<Scalars['String']['output']>;
+  question: QuestionEntity;
+  updatedAt?: Maybe<Scalars['String']['output']>;
+  user?: Maybe<UserOutputType>;
+};
+
 export type AuthMutation = {
   __typename?: 'AuthMutation';
   logout: LogoutOutput;
@@ -202,12 +213,14 @@ export type BusinessQuerySearchBusinessArgs = {
 };
 
 export enum CollectionName {
+  Answer = 'ANSWER',
   Bookmark = 'BOOKMARK',
   Business = 'BUSINESS',
   Favorite = 'FAVORITE',
   Image = 'IMAGE',
   Otp = 'OTP',
   Permission = 'PERMISSION',
+  Question = 'QUESTION',
   Review = 'REVIEW',
   Role = 'ROLE',
   Taxonomy = 'TAXONOMY',
@@ -226,6 +239,17 @@ export type CreateAdminReviewInput = {
   parent?: InputMaybe<Scalars['String']['input']>;
   post: Scalars['String']['input'];
   type: ReviewType;
+};
+
+export type CreateAnswerInput = {
+  content: Scalars['String']['input'];
+  question: Scalars['String']['input'];
+};
+
+export type CreateAnswerOutput = {
+  __typename?: 'CreateAnswerOutput';
+  answerId?: Maybe<Scalars['String']['output']>;
+  success: Scalars['Boolean']['output'];
 };
 
 export type CreateBookmarkInput = {
@@ -281,6 +305,16 @@ export type CreatePermissionOutput = {
   success: Scalars['Boolean']['output'];
 };
 
+export type CreateQuestionInput = {
+  business: Scalars['String']['input'];
+  content: Scalars['String']['input'];
+};
+
+export type CreateQuestionOutput = {
+  __typename?: 'CreateQuestionOutput';
+  success: Scalars['Boolean']['output'];
+};
+
 export type CreateReviewInput = {
   author?: InputMaybe<Scalars['String']['input']>;
   authorEmail?: InputMaybe<Scalars['String']['input']>;
@@ -318,6 +352,7 @@ export type CreateTaxonomyInput = {
 export type CreateTaxonomyOutput = {
   __typename?: 'CreateTaxonomyOutput';
   success: Scalars['Boolean']['output'];
+  taxonomy?: Maybe<TaxonomyEntity>;
 };
 
 export type CreateUserInput = {
@@ -335,6 +370,15 @@ export type CreateUserInput = {
 
 export type CreateUserOutput = {
   __typename?: 'CreateUserOutput';
+  success: Scalars['Boolean']['output'];
+};
+
+export type DeleteAnswerInput = {
+  id: Scalars['String']['input'];
+};
+
+export type DeleteAnswerOutput = {
+  __typename?: 'DeleteAnswerOutput';
   success: Scalars['Boolean']['output'];
 };
 
@@ -382,6 +426,10 @@ export type DeleteImageOutput = {
   success: Scalars['Boolean']['output'];
 };
 
+export type DeleteManyAnswerInput = {
+  ids: Array<Scalars['String']['input']>;
+};
+
 export type DeleteManyReviewInput = {
   ids: Array<Scalars['String']['input']>;
 };
@@ -401,6 +449,19 @@ export type DeletePermissionInput = {
 export type DeletePermissionOutput = {
   __typename?: 'DeletePermissionOutput';
   success: Scalars['Boolean']['output'];
+};
+
+export type DeleteQuestionInput = {
+  id: Scalars['String']['input'];
+};
+
+export type DeleteQuestionOutput = {
+  __typename?: 'DeleteQuestionOutput';
+  success: Scalars['Boolean']['output'];
+};
+
+export type DeleteQuestionsInput = {
+  ids: Array<Scalars['String']['input']>;
 };
 
 export type DeleteReviewInput = {
@@ -585,6 +646,30 @@ export type FindPermissionOutput = {
   success: Scalars['Boolean']['output'];
 };
 
+export type FindQuestionInput = {
+  id: Scalars['String']['input'];
+};
+
+export type FindQuestionOutput = {
+  __typename?: 'FindQuestionOutput';
+  result?: Maybe<QuestionEntity>;
+  success: Scalars['Boolean']['output'];
+};
+
+export type FindQuestionsByBusinessInput = {
+  business: Scalars['String']['input'];
+};
+
+export type FindQuestionsInput = {
+  ids: Array<Scalars['String']['input']>;
+};
+
+export type FindQuestionsOutput = {
+  __typename?: 'FindQuestionsOutput';
+  results?: Maybe<Array<QuestionEntity>>;
+  success: Scalars['Boolean']['output'];
+};
+
 export type FindReviewInput = {
   id: Scalars['String']['input'];
 };
@@ -761,6 +846,50 @@ export type MutateFavoriteResponseDeleteOneFavoriteArgs = {
   input: DeleteOneFavoriteInput;
 };
 
+export type MutateQuestionResponse = {
+  __typename?: 'MutateQuestionResponse';
+  bulkDeleteAnswer: DeleteAnswerOutput;
+  bulkDeleteQuestion: DeleteQuestionOutput;
+  createAnswer: CreateAnswerOutput;
+  createQuestion: CreateQuestionOutput;
+  deleteAnswer: DeleteAnswerOutput;
+  deleteQuestion: DeleteQuestionOutput;
+  updateAnswer: UpdateAnswerOutput;
+  updateQuestion: UpdateQuestionOutput;
+};
+
+export type MutateQuestionResponseBulkDeleteAnswerArgs = {
+  input: DeleteManyAnswerInput;
+};
+
+export type MutateQuestionResponseBulkDeleteQuestionArgs = {
+  input: DeleteQuestionsInput;
+};
+
+export type MutateQuestionResponseCreateAnswerArgs = {
+  input: CreateAnswerInput;
+};
+
+export type MutateQuestionResponseCreateQuestionArgs = {
+  input: CreateQuestionInput;
+};
+
+export type MutateQuestionResponseDeleteAnswerArgs = {
+  input: DeleteAnswerInput;
+};
+
+export type MutateQuestionResponseDeleteQuestionArgs = {
+  input: DeleteQuestionInput;
+};
+
+export type MutateQuestionResponseUpdateAnswerArgs = {
+  input: UpdateAnswerInput;
+};
+
+export type MutateQuestionResponseUpdateQuestionArgs = {
+  input: UpdateQuestionInput;
+};
+
 export type MutateReviewResponse = {
   __typename?: 'MutateReviewResponse';
   bulkDeleteReview: DeleteReviewOutput;
@@ -807,6 +936,7 @@ export type Mutation = {
   business: BusinessMutation;
   favorite: MutateFavoriteResponse;
   image: ImageMutation;
+  question: MutateQuestionResponse;
   review: MutateReviewResponse;
   taxonomy: TaxonomyMutation;
   user: UserMutation;
@@ -876,9 +1006,51 @@ export type Query = {
   business: BusinessQuery;
   favorite: FavoriteResponse;
   image: ImageQuery;
+  question: QuestionQuery;
   review: ReviewQuery;
   taxonomy: TaxonomyQuery;
   user: UserQuery;
+};
+
+export type QuestionEntity = {
+  __typename?: 'QuestionEntity';
+  _id: Scalars['String']['output'];
+  answers: Array<AnswerEntity>;
+  approved?: Maybe<BooleanEnum>;
+  business: BusinessEntity;
+  content: Scalars['String']['output'];
+  createdAt?: Maybe<Scalars['String']['output']>;
+  updatedAt?: Maybe<Scalars['String']['output']>;
+  user?: Maybe<UserOutputType>;
+};
+
+export type QuestionQuery = {
+  __typename?: 'QuestionQuery';
+  findQuestionByBusiness: FindQuestionsOutput;
+  findQuestionById: FindQuestionOutput;
+  findQuestionByIds: FindQuestionsOutput;
+  searchAnswer: SearchAnswerOutput;
+  searchQuestion: SearchQuestionOutput;
+};
+
+export type QuestionQueryFindQuestionByBusinessArgs = {
+  input: FindQuestionsByBusinessInput;
+};
+
+export type QuestionQueryFindQuestionByIdArgs = {
+  input: FindQuestionInput;
+};
+
+export type QuestionQueryFindQuestionByIdsArgs = {
+  input: FindQuestionsInput;
+};
+
+export type QuestionQuerySearchAnswerArgs = {
+  input: SearchAnswerInput;
+};
+
+export type QuestionQuerySearchQuestionArgs = {
+  input: SearchQuestionInput;
 };
 
 export type RefreshTokenOutput = {
@@ -1010,6 +1182,22 @@ export type Score = {
   votesCount?: Maybe<Scalars['Float']['output']>;
 };
 
+export type SearchAnswerInput = {
+  approved?: InputMaybe<BooleanEnum>;
+  count?: InputMaybe<Scalars['Int']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  question?: InputMaybe<Scalars['String']['input']>;
+  user?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type SearchAnswerOutput = {
+  __typename?: 'SearchAnswerOutput';
+  results?: Maybe<Array<AnswerEntity>>;
+  success: Scalars['Boolean']['output'];
+  totalCount?: Maybe<Scalars['Int']['output']>;
+  totalPages?: Maybe<Scalars['Int']['output']>;
+};
+
 export type SearchBookmarkInput = {
   count?: InputMaybe<Scalars['Int']['input']>;
   page?: InputMaybe<Scalars['Int']['input']>;
@@ -1077,6 +1265,22 @@ export type SearchPermissionInput = {
 export type SearchPermissionOutput = {
   __typename?: 'SearchPermissionOutput';
   results?: Maybe<Array<PermissionEntity>>;
+  success: Scalars['Boolean']['output'];
+  totalCount?: Maybe<Scalars['Int']['output']>;
+  totalPages?: Maybe<Scalars['Int']['output']>;
+};
+
+export type SearchQuestionInput = {
+  approved?: InputMaybe<BooleanEnum>;
+  business?: InputMaybe<Scalars['String']['input']>;
+  count?: InputMaybe<Scalars['Int']['input']>;
+  page?: InputMaybe<Scalars['Int']['input']>;
+  user?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type SearchQuestionOutput = {
+  __typename?: 'SearchQuestionOutput';
+  results?: Maybe<Array<QuestionEntity>>;
   success: Scalars['Boolean']['output'];
   totalCount?: Maybe<Scalars['Int']['output']>;
   totalPages?: Maybe<Scalars['Int']['output']>;
@@ -1276,6 +1480,17 @@ export type TimeRangeType = {
   to?: Maybe<Scalars['String']['output']>;
 };
 
+export type UpdateAnswerInput = {
+  content?: InputMaybe<Scalars['String']['input']>;
+  id: Scalars['String']['input'];
+  question?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type UpdateAnswerOutput = {
+  __typename?: 'UpdateAnswerOutput';
+  success: Scalars['Boolean']['output'];
+};
+
 export type UpdateBusinessInput = {
   address?: InputMaybe<Scalars['String']['input']>;
   address2?: InputMaybe<Scalars['String']['input']>;
@@ -1317,6 +1532,18 @@ export type UpdatePermissionInput = {
 
 export type UpdatePermissionOutput = {
   __typename?: 'UpdatePermissionOutput';
+  success: Scalars['Boolean']['output'];
+};
+
+export type UpdateQuestionInput = {
+  approved: Scalars['String']['input'];
+  business?: InputMaybe<Scalars['String']['input']>;
+  content?: InputMaybe<Scalars['String']['input']>;
+  id: Scalars['String']['input'];
+};
+
+export type UpdateQuestionOutput = {
+  __typename?: 'UpdateQuestionOutput';
   success: Scalars['Boolean']['output'];
 };
 

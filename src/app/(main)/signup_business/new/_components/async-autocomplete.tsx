@@ -1,4 +1,7 @@
+'use client';
+
 import {type Dispatch, type SetStateAction, useEffect, useState} from 'react';
+import toast from 'react-hot-toast';
 import {css} from '@styled/css';
 
 import {
@@ -10,8 +13,10 @@ import {
 import {
   CreateTaxonomyInput,
   TaxonomyEntity as Category,
+  TaxonomyEntity,
   TaxonomyType,
 } from '@/graphql/generated/types';
+import {createTaxonomy} from '@/graphql/mutation/taxonomy/create-taxonomy-client';
 
 interface Response {
   success: boolean;
@@ -19,6 +24,7 @@ interface Response {
 }
 
 interface Props {
+  token: string;
   selectedCategories: Category[];
   setSelectedCategories: Dispatch<SetStateAction<Category[]>>;
   onCategoryRemove: (id: string) => void;
@@ -28,6 +34,7 @@ const AsyncAutocompleteInput: React.FC<Props> = ({
   selectedCategories,
   setSelectedCategories,
   onCategoryRemove,
+  token,
 }) => {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<Category[]>([]);
@@ -71,94 +78,101 @@ const AsyncAutocompleteInput: React.FC<Props> = ({
   };
 
   const handleCreateCategory = async () => {
+    if (!token) return;
     const payload: CreateTaxonomyInput = {
       slug: query.toLowerCase(),
       title: query,
       type: TaxonomyType.Category,
     };
-    const response = await fetch('/api/create-category', {
-      method: 'POST',
-      body: JSON.stringify(payload),
-    }).then(res => res.json());
-    if (response.success) handleCategorySelect(response.data);
+
+    try {
+      const res = await createTaxonomy(payload, token);
+      if (res.success) {
+        handleCategorySelect(res.taxonomy as TaxonomyEntity);
+      } else {
+        toast.error('Failed to create category.');
+      }
+    } catch (error: Error | any) {
+      toast.error(error.message);
+    }
   };
 
   return (
     <TextField className={css({mb: '8', position: 'relative'})}>
       <Label htmlFor='categories'>Categories</Label>
-      <InputWrapper>
+      <InputWrapper className={css({position: 'relative'})}>
         <Input
           type='text'
           value={query}
           onChange={e => setQuery(e.target.value)}
           placeholder='Search for a category...'
         />
-      </InputWrapper>
-      {isLoading && (
-        <div
-          className={css({
-            pos: 'absolute',
-            right: '0',
-            left: '0',
-            bgColor: 'white',
-            borderWidth: '1px',
-            borderColor: 'gray.300',
-            rounded: 'lg',
-            mt: '1',
-            zIndex: '10',
-            bottom: '-5',
-          })}
-        >
-          <span className={css({display: 'inline-block', p: '2'})}>Loading...</span>
-        </div>
-      )}
-      {query && !isLoading && (
-        <div
-          className={css({
-            pos: 'absolute',
-            right: '0',
-            left: '0',
-            bgColor: 'white',
-            borderWidth: '1px',
-            borderColor: 'gray.300',
-            rounded: 'lg',
-            mt: '1',
-            zIndex: '10',
-            bottom: '-5',
-          })}
-        >
-          {results.length > 0 ? (
-            <div
-              className={css({display: 'flex', alignItems: 'center', gap: '2', flexWrap: 'wrap'})}
-            >
-              {results.map(category => (
+        {isLoading && (
+          <div
+            className={css({
+              pos: 'absolute',
+              right: '0',
+              left: '0',
+              bgColor: 'white',
+              borderWidth: '1px',
+              borderColor: 'gray.300',
+              rounded: 'lg',
+              mt: '1',
+              zIndex: '10',
+              bottom: '-5',
+            })}
+          >
+            <span className={css({display: 'inline-block', p: '2'})}>Loading...</span>
+          </div>
+        )}
+        {query && !isLoading && (
+          <div
+            className={css({
+              pos: 'absolute',
+              right: '0',
+              left: '0',
+              bgColor: 'white',
+              borderWidth: '1px',
+              borderColor: 'gray.300',
+              rounded: 'lg',
+              mt: '1',
+              zIndex: '10',
+              top: '[100%]',
+            })}
+          >
+            {results.length > 0 ? (
+              <div
+                className={css({display: 'flex', alignItems: 'center', gap: '2', flexWrap: 'wrap'})}
+              >
+                {results.map(category => (
+                  <button
+                    type='button'
+                    key={category._id}
+                    onClick={() => handleCategorySelect(category)}
+                    className={css({p: '2', _hover: {bgColor: 'gray.100'}, cursor: 'pointer'})}
+                  >
+                    {category.title}
+                  </button>
+                ))}
+              </div>
+            ) : (
+              <div className={css({p: '2'})}>
+                No results found.{' '}
                 <button
                   type='button'
-                  key={category._id}
-                  onClick={() => handleCategorySelect(category)}
-                  className={css({p: '2', _hover: {bgColor: 'gray.100'}, cursor: 'pointer'})}
+                  onClick={handleCreateCategory}
+                  className={css({
+                    color: 'blue.500',
+                    _hover: {textDecorationLine: 'underline', cursor: 'pointer'},
+                  })}
                 >
-                  {category.title}
+                  Create a new category{` ${query}`}
                 </button>
-              ))}
-            </div>
-          ) : (
-            <div className={css({p: '2'})}>
-              No results found.{' '}
-              <button
-                type='button'
-                onClick={handleCreateCategory}
-                className={css({
-                  color: 'blue.500',
-                  _hover: {textDecorationLine: 'underline', cursor: 'pointer'},
-                })}
-              >
-                Create a new category{` ${query}`}
-              </button>
-            </div>
-          )}
-        </div>
-      )}
+              </div>
+            )}
+          </div>
+        )}
+      </InputWrapper>
       <div className={css({display: 'flex', flexWrap: 'wrap'})}>
         {selectedCategories.map(category => (
           <div

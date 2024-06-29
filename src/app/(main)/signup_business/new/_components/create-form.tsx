@@ -23,7 +23,7 @@ import 'react-phone-input-2/lib/style.css';
 import signupBusiness from '../_actions/signup-business';
 import AsyncAutocompleteInput from './async-autocomplete';
 
-function CreateBusinessForm() {
+function CreateBusinessForm({token}: {token: string}) {
   const [formState, action] = useFormState(signupBusiness, EMPTY_FORM_STATE);
   const [selectedCategories, setSelectedCategories] = useState<TaxonomyEntity[]>([]);
   const [phone, setPhone] = useState<string>();
@@ -81,6 +81,7 @@ function CreateBusinessForm() {
         <FieldError formState={formState} name='zipCode' />
       </TextField>
       <AsyncAutocompleteInput
+        token={token}
         onCategoryRemove={handleCategoryRemove}
         selectedCategories={selectedCategories}
         setSelectedCategories={setSelectedCategories}

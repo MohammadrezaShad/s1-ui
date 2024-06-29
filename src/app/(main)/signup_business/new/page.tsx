@@ -1,8 +1,13 @@
 import {css} from '@styled/css';
+import {cookies} from 'next/headers';
+
+import {CookieName} from '@/constants';
 
 import CreateBusinessForm from './_components/create-form';
 
 function Page() {
+  const cookie = cookies();
+  const token = cookie.get(CookieName.ACCESS_TOKEN)?.value || '';
   return (
     <div
       className={css({
@@ -27,7 +32,7 @@ function Page() {
           <br />
           customers can reach you
         </h1>
-        <CreateBusinessForm />
+        <CreateBusinessForm token={token} />
       </section>
       <section
         className={css({

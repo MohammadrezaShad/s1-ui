@@ -25,15 +25,13 @@ import {
   Details,
   RatingsContainer,
   RatingsWrapper,
-  ReviewLink,
   ScoresWrapper,
   Section,
   VisitorInfoContainer,
   VisitorInfoWrapper,
-  VisitorRatingWrapper,
-  VisitorReviewWrapper,
   Wrapper,
 } from './_components/styled';
+import UserRating from './_components/user-rating';
 
 const user = {
   name: 'Sara B.',
@@ -60,11 +58,17 @@ async function Page({params}: {params: {bizId: string}}) {
   const cookie = cookies();
   const token = cookie.get(CookieName.ACCESS_TOKEN)?.value || '';
   const id = params.bizId;
-  const data = await findBusinessById({id});
-  const userData = await getProfile(token);
+  const data = await findBusinessById({id}, token);
 
   const business = data.result;
-  const currentUser = userData.result;
+  let currentUser;
+
+  try {
+    const userData = await getProfile(token);
+    currentUser = userData.result;
+  } catch (error: any) {
+    console.log(error.message);
+  }
 
   if (!business) redirect('/');
 
@@ -84,7 +88,7 @@ async function Page({params}: {params: {bizId: string}}) {
         <Wrapper>
           <Details>
             <div className={css({my: '6'})}>
-              <BusinessActions />
+              <BusinessActions business={business} token={token} />
               <Section id='#location-and-hours'>
                 <h2>Location & Hours</h2>
                 <BusinessHours business={business as BusinessEntity} />
@@ -138,24 +142,20 @@ async function Page({params}: {params: {bizId: string}}) {
                 <VisitorInfoContainer>
                   <VisitorInfoWrapper>
                     <FaUserCircle className={css({w: '16', h: '16', color: 'grey_300'})} />
-                    <div>
-                      <div className={css({fontWeight: 'semibold'})}>
-                        {currentUser?.displayName}
+                    {currentUser ? (
+                      <div>
+                        <div className={css({fontWeight: 'semibold'})}>
+                          {currentUser?.displayName}
+                        </div>
+                        <div className={css({color: 'gray.500', fontSize: 'sm'})}>
+                          {`${currentUser?.country || ''} ${currentUser?.city || ''}`}
+                        </div>
                       </div>
-                      <div className={css({color: 'gray.500', fontSize: 'sm'})}>
-                        {`${currentUser?.country || ''} ${currentUser?.city || ''}`}
-                      </div>
-                    </div>
+                    ) : (
+                      <div className={css({fontWeight: 'semibold'})}>Login to post a review</div>
+                    )}
                   </VisitorInfoWrapper>
-                  <VisitorReviewWrapper>
-                    <VisitorRatingWrapper>
-                      <Rating rating={0} />{' '}
-                      <span className={css({fontSize: 'sm'})}>Select your rating</span>
-                    </VisitorRatingWrapper>
-                    <ReviewLink href='/'>
-                      Start your review of <span>{business.name}</span>
-                    </ReviewLink>
-                  </VisitorReviewWrapper>
+                  <UserRating business={business} />
                 </VisitorInfoContainer>
                 <CommentBox user={user} comment={comment} />
                 <CommentBox user={user} comment={comment} />

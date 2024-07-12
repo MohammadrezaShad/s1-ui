@@ -3,11 +3,12 @@ import {Container} from '@styled/jsx';
 import {cookies} from 'next/headers';
 import {redirect, RedirectType} from 'next/navigation';
 
-import Rating from '@/app/(main)/biz/[bizId]/_components/rating';
 import {Button} from '@/components';
 import {CookieName} from '@/constants';
 import {createReview, findBusinessById, getProfile} from '@/graphql';
 import {CreateReviewInput, ReviewType} from '@/graphql/generated/types';
+
+import UserRating from './_components/user-rating';
 
 interface Props {
   params: {
@@ -80,11 +81,7 @@ async function Page({params, searchParams}: Props) {
             },
           })}
         >
-          <div className={css({display: 'flex', alignItems: 'center'})}>
-            <div className={css({display: 'flex'})}>
-              <Rating rating={+(rating ?? '0')} readonly={false} />
-            </div>
-          </div>
+          <UserRating rating={+(rating ?? '0')} />
           <div className={css({my: '4'})}>
             <p>A few things to consider in your review</p>
             <div className={css({mt: '2', display: 'flex', gap: '2', mr: '2', ml: '2'})}>

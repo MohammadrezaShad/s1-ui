@@ -54,7 +54,7 @@ function MainHeader({business}: Props) {
           <Title>{business?.name}</Title>
           <RatingWrapper>
             <Rating rating={business?.businessScore?.ratingValue ?? 0} />
-            <span>
+            <span className={css({ms: '2'})}>
               {business?.userBusinessScore} ({business?.businessScore?.ratingCount ?? 0} reviews)
             </span>
           </RatingWrapper>
@@ -70,7 +70,7 @@ function MainHeader({business}: Props) {
               )}
             </span>
           ) : null}
-          <div className={css({display: 'flex', alignItems: 'center', gap: 1})}>
+          <div className={css({display: 'flex', alignItems: 'center', gap: '3'})}>
             {isBusinessCurrentlyOpen ? (
               <span
                 className={css({

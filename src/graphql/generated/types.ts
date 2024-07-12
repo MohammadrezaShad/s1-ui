@@ -1586,6 +1586,7 @@ export type UpdateTaxonomyInput = {
 export type UpdateTaxonomyOutput = {
   __typename?: 'UpdateTaxonomyOutput';
   success: Scalars['Boolean']['output'];
+  taxonomy?: Maybe<TaxonomyEntity>;
 };
 
 export type UpdateUserInput = {

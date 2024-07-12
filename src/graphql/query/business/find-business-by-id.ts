@@ -6,6 +6,7 @@ import {gqlFetch} from '@/services/fetch';
 
 export async function findBusinessById(
   input: FindBusinessByIdInput,
+  token?: string,
 ): Promise<BusinessQuery['findBusinessById']> {
   const clientId = getCookie(CookieName.CLIENT_ID) as string;
   const res = await gqlFetch({
@@ -101,6 +102,7 @@ export async function findBusinessById(
       }`,
     variables: {input},
     headers: {
+      authorization: `Bearer ${token}`,
       'client-id': clientId,
     },
   });

@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import {FaStar} from 'react-icons/fa';
 import {css, cx} from '@styled/css';
@@ -7,9 +9,18 @@ type RatingProps = {
   maxRating?: number;
   height?: string;
   width?: string;
+  readonly?: boolean;
+  callback?: (rating: string) => void;
 };
 
-const Rating: React.FC<RatingProps> = ({rating, maxRating = 5, width = '8', height = '8'}) => {
+const Rating: React.FC<RatingProps> = ({
+  rating,
+  maxRating = 5,
+  width = '8',
+  height = '8',
+  readonly = true,
+  callback,
+}) => {
   const getBackgroundStyle = (index: number) => {
     if (rating >= index + 1) {
       return css({bgColor: 'orange.500'});
@@ -20,11 +31,18 @@ const Rating: React.FC<RatingProps> = ({rating, maxRating = 5, width = '8', heig
     return css({bgColor: 'gray.200'});
   };
 
+  const handleSetRating = (index: number) => {
+    if (readonly || !callback) return;
+    callback(String(index + 1));
+  };
+
   return (
     <div className={css({display: 'flex', gap: 1})}>
       {Array.from({length: maxRating}, (_, index) => (
-        <div
+        <button
+          type='button'
           key={index}
+          onClick={() => handleSetRating(index)}
           className={cx(
             css({
               pos: 'relative',
@@ -34,6 +52,7 @@ const Rating: React.FC<RatingProps> = ({rating, maxRating = 5, width = '8', heig
               w: width,
               h: height,
               rounded: 'md',
+              cursor: readonly ? 'default' : 'pointer',
             }),
             getBackgroundStyle(index),
           )}
@@ -62,7 +81,7 @@ const Rating: React.FC<RatingProps> = ({rating, maxRating = 5, width = '8', heig
               style={{width: `${(rating - index) * 100}%`}}
             />
           )}
-        </div>
+        </button>
       ))}
     </div>
   );

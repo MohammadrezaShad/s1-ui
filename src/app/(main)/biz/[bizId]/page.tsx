@@ -5,7 +5,7 @@ import {redirect} from 'next/navigation';
 
 import {Button} from '@/components';
 import {CookieName} from '@/constants';
-import {findBusinessById, getProfile, searchBusiness} from '@/graphql';
+import {findBusinessById, findReviewByPost, getProfile, searchBusiness} from '@/graphql';
 import {BusinessEntity} from '@/graphql/generated/types';
 
 import BusinessActions from './_components/actions';
@@ -25,46 +25,31 @@ import {
   Details,
   RatingsContainer,
   RatingsWrapper,
-  ReviewLink,
   ScoresWrapper,
   Section,
   VisitorInfoContainer,
   VisitorInfoWrapper,
-  VisitorRatingWrapper,
-  VisitorReviewWrapper,
   Wrapper,
 } from './_components/styled';
-
-const user = {
-  name: 'Sara B.',
-  location: 'Walnut Creek, CA',
-  eliteStatus: 'Elite 24',
-  reviews: 307,
-  friends: 249,
-  photos: 520,
-  avatarUrl: 'https://via.placeholder.com/48', // replace with actual image URL
-};
-
-const comment = {
-  date: 'Jan 3, 2024',
-  content: `As the world's largest indoor bazaar, how can you visit in Istanbul without seeing the grand bazaar?! This beautiful and old market is definitely something you have to visit before leaving in Istanbul. It would be a sin to visit all of the historical sites and not include the Grand Bazaar in your itinerary. I will say to be careful as they do charge extremely high prices to tourists, of course. I would not buy anything until I get comfortable bargaining and check out a good portion of the bazaar, coming back to purchase from the from the merchant that gives you the best deal. Happy touring and hustling!`,
-  ratings: {
-    helpful: 0,
-    thanks: 0,
-    love: 2,
-    ohNo: 0,
-  },
-};
+import UserRating from './_components/user-rating';
 
 async function Page({params}: {params: {bizId: string}}) {
   const cookie = cookies();
   const token = cookie.get(CookieName.ACCESS_TOKEN)?.value || '';
   const id = params.bizId;
-  const data = await findBusinessById({id});
-  const userData = await getProfile(token);
+  const data = await findBusinessById({id}, token);
+  const reviewsResponse = await findReviewByPost({post: id});
 
   const business = data.result;
-  const currentUser = userData.result;
+  const reviews = reviewsResponse.results;
+  let currentUser;
+
+  try {
+    const userData = await getProfile(token);
+    currentUser = userData.result;
+  } catch (error: any) {
+    console.log(error.message);
+  }
 
   if (!business) redirect('/');
 
@@ -84,7 +69,7 @@ async function Page({params}: {params: {bizId: string}}) {
         <Wrapper>
           <Details>
             <div className={css({my: '6'})}>
-              <BusinessActions />
+              <BusinessActions business={business} token={token} />
               <Section id='#location-and-hours'>
                 <h2>Location & Hours</h2>
                 <BusinessHours business={business as BusinessEntity} />
@@ -138,27 +123,22 @@ async function Page({params}: {params: {bizId: string}}) {
                 <VisitorInfoContainer>
                   <VisitorInfoWrapper>
                     <FaUserCircle className={css({w: '16', h: '16', color: 'grey_300'})} />
-                    <div>
-                      <div className={css({fontWeight: 'semibold'})}>
-                        {currentUser?.displayName}
+                    {currentUser ? (
+                      <div>
+                        <div className={css({fontWeight: 'semibold'})}>
+                          {currentUser?.displayName}
+                        </div>
+                        <div className={css({color: 'gray.500', fontSize: 'sm'})}>
+                          {`${currentUser?.country || ''} ${currentUser?.city || ''}`}
+                        </div>
                       </div>
-                      <div className={css({color: 'gray.500', fontSize: 'sm'})}>
-                        {`${currentUser?.country || ''} ${currentUser?.city || ''}`}
-                      </div>
-                    </div>
+                    ) : (
+                      <div className={css({fontWeight: 'semibold'})}>Login to post a review</div>
+                    )}
                   </VisitorInfoWrapper>
-                  <VisitorReviewWrapper>
-                    <VisitorRatingWrapper>
-                      <Rating rating={0} />{' '}
-                      <span className={css({fontSize: 'sm'})}>Select your rating</span>
-                    </VisitorRatingWrapper>
-                    <ReviewLink href='/'>
-                      Start your review of <span>{business.name}</span>
-                    </ReviewLink>
-                  </VisitorReviewWrapper>
+                  <UserRating business={business} />
                 </VisitorInfoContainer>
-                <CommentBox user={user} comment={comment} />
-                <CommentBox user={user} comment={comment} />
+                {reviews?.map(review => <CommentBox key={review._id} comment={review} />)}
               </Section>
             </div>
           </Details>

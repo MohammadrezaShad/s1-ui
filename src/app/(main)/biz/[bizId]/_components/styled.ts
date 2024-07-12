@@ -16,6 +16,7 @@ export const Overlay = styled('div', {
     display: 'flex',
     px: '16',
     py: '10',
+    pb: '2',
     zIndex: 1,
     bgImage: 'linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.75) 100%)',
   },
@@ -24,7 +25,6 @@ export const Overlay = styled('div', {
 export const InfoWrapper = styled('div', {
   base: {
     flex: '1',
-    pointerEvents: 'none',
     pr: '4',
     display: 'flex',
     flexDir: 'column',
@@ -186,7 +186,7 @@ export const VisitorInfoContainer = styled('div', {
     alignItems: 'center',
     justifyContent: 'space-between',
     w: 'full',
-    mt: '4',
+    my: '4',
   },
 });
 
